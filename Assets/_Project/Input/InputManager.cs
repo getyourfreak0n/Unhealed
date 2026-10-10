@@ -1,5 +1,6 @@
-using _Project.Code.AidenStuff;
+using _Project.Code.Core.Singleton;
 using _Project.Code.Gameplay;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Project.Input
@@ -33,10 +34,12 @@ namespace _Project.Input
 
         void OnMovePerformed(InputAction.CallbackContext ctx)
         {
+            _playerController.MoveInput(ctx.ReadValue<Vector2>());
         }
 
         void OnMoveCanceled(InputAction.CallbackContext ctx)
         {
+            _playerController.MoveInput(Vector2.zero);
         }
     }
 }

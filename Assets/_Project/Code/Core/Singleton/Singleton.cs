@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Project.Code.AidenStuff
+namespace _Project.Code.Core.Singleton
 {
     // Generic Singleton base class to ensure a single instance of a MonoBehaviour-derived class
     public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour
