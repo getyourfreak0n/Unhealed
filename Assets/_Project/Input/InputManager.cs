@@ -22,6 +22,7 @@ namespace _Project.Input
             _actions.Enable();
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
+            //_actions.Player.Mouse.performed += OnMousePerformed;
 
 
         }
@@ -29,6 +30,7 @@ namespace _Project.Input
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
+            //_actions.Player.Mouse.performed += OnMousePerformed;
             _actions.Disable();
         }
 
