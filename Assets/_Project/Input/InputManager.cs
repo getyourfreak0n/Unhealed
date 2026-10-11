@@ -22,6 +22,7 @@ namespace _Project.Input
             _actions.Enable();
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
+            _actions.Player.Jump.performed += OnJumpPerformed;
             //_actions.Player.Mouse.performed += OnMousePerformed;
 
 
@@ -30,6 +31,7 @@ namespace _Project.Input
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
+            _actions.Player.Jump.performed -= OnJumpPerformed;
             //_actions.Player.Mouse.performed += OnMousePerformed;
             _actions.Disable();
         }
@@ -42,6 +44,11 @@ namespace _Project.Input
         void OnMoveCanceled(InputAction.CallbackContext ctx)
         {
             _playerController.MoveInput(Vector2.zero);
+        }
+
+        void OnJumpPerformed(InputAction.CallbackContext ctx)
+        {
+            _playerController.OnJump();
         }
     }
 }

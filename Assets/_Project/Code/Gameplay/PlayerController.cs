@@ -38,6 +38,11 @@ namespace _Project.Code.Gameplay
         {
             _moveInput = Vector3.ClampMagnitude(new Vector3(moveInput.x, 0, moveInput.y), 1f);
         }
+
+        public void OnJump()
+        {
+            
+        }
         
 
         void PlayerMovement()
