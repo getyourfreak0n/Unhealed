@@ -17,9 +17,12 @@ namespace _Project.Code.Gameplay
         [Header("Movement Settings")]
         [SerializeField] float _maxSpeed = 10f;
         [SerializeField] float _acceleration = 5f, _deceleration = 5f;
-        [SerializeField] float _gravity = 9.4f;
+        
         [Header("Jump Settings")]
-        [SerializeField] float _groundCheckDistance = 0.4f; 
+        [SerializeField] float _jumpForce = 5f;
+        [SerializeField] float _groundCheckDistance = 0.4f;
+        [SerializeField] float _gravity = 9.4f;
+        [SerializeField] float _gravityMultiplier = 2f;
         
             #endregion
 
@@ -50,6 +53,7 @@ namespace _Project.Code.Gameplay
 
         void Update()
         { 
+            GroundCheck();
             PlayerMovement();
         }
 
@@ -62,11 +66,10 @@ namespace _Project.Code.Gameplay
 
         public void OnJump()
         {
-            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
-
-            _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
-            
-            Debug.Log("isGrounded: " + _isGrounded);
+            if (_isGrounded)
+            {
+                verticalVelocity = _jumpForce;
+            }
         }
         
 
@@ -79,12 +82,26 @@ namespace _Project.Code.Gameplay
            float rate = horizontalVector.sqrMagnitude > 0.01f ? _acceleration : _deceleration;
            _currentVector = Vector3.Lerp(_currentVector, horizontalVector, rate * Time.deltaTime);
            
-           //apply downward force to y 
-           verticalVelocity = -_gravity;
-
+           //apply downforce to y 
+           if (_isGrounded && verticalVelocity < 0)
+           {
+               verticalVelocity = -2f;
+           }
+           else
+           {
+               verticalVelocity -= _gravity * _gravityMultiplier * Time.deltaTime;
+           }
+           
            //put everything together
            _moveVector = new Vector3(_currentVector.x,verticalVelocity, _currentVector.z);
            _characterController.Move(_moveVector * Time.deltaTime);
+        }
+
+        void GroundCheck()
+        {
+            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
+
+            _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
         }
     }
 }
