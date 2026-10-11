@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9333ee840662e874cbfb2f08fec213fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  _targetSpeed: 10.61
-  _acceleration: 2.11
-  _deceleration: 8.7
-  _gravity: 9
-  _groundCheckDistance: 0.2
+  _maxSpeed: 10
+  _acceleration: 2.1
+  _deceleration: 9
+  _gravity: 9.3
+  _groundCheckDistance: 0.65

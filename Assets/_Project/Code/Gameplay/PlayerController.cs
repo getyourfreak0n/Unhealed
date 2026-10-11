@@ -15,7 +15,7 @@ namespace _Project.Code.Gameplay
         #region SerializeFields
 
         [Header("Movement Settings")]
-        [SerializeField] float _targetSpeed = 10f;
+        [SerializeField] float _maxSpeed = 10f;
         [SerializeField] float _acceleration = 5f, _deceleration = 5f;
         [SerializeField] float _gravity = 9.4f;
         [Header("Jump Settings")]
@@ -29,11 +29,13 @@ namespace _Project.Code.Gameplay
         Vector3 _moveInput;
         Vector3 _currentVector;
         Vector3 _moveVector;
+        float verticalVelocity;
 
         //JUMP
         bool _isGrounded;
         LayerMask _groundMask;
-        float offset = 0.3f;
+        float offset = 0.5f;
+        
         #endregion
         
         void Awake()
@@ -60,7 +62,7 @@ namespace _Project.Code.Gameplay
 
         public void OnJump()
         {
-            Ray ray = new Ray(transform.position * offset , Vector3.down);
+            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
 
             _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
             
@@ -70,15 +72,19 @@ namespace _Project.Code.Gameplay
 
         void PlayerMovement()
         {
-           Vector3 targetVector =  _targetSpeed * _moveInput;
+            // create horizontalVector out of player input without y and multiply with speed
+           Vector3 horizontalVector =  (new Vector3(_moveInput.x , 0f, _moveInput.z) * _maxSpeed);
            
-           float rate = targetVector.sqrMagnitude > 0.01f ? _acceleration : _deceleration;
+           // rate changes depends on if there is input or not. And lerp movement based on that
+           float rate = horizontalVector.sqrMagnitude > 0.01f ? _acceleration : _deceleration;
+           _currentVector = Vector3.Lerp(_currentVector, horizontalVector, rate * Time.deltaTime);
            
-           _currentVector = Vector3.Lerp(_currentVector, targetVector, rate * Time.deltaTime);
+           //apply downward force to y 
+           verticalVelocity = -_gravity;
 
-           _moveVector = _currentVector * Time.deltaTime;
-           
-           _characterController.Move(_moveVector);
+           //put everything together
+           _moveVector = new Vector3(_currentVector.x,verticalVelocity, _currentVector.z);
+           _characterController.Move(_moveVector * Time.deltaTime);
         }
     }
 }
