@@ -8,7 +8,7 @@ namespace _Project.Code.Gameplay
         #region References
 
         CharacterController _characterController;
-        CinemachineCamera _cineCamera;
+        //CinemachineCamera _cineCamera;
         
         #endregion
         
@@ -17,13 +17,13 @@ namespace _Project.Code.Gameplay
         [Header("Movement Settings")]
         [SerializeField] float _maxSpeed = 10f;
         [SerializeField] float _acceleration = 5f, _deceleration = 5f;
-        
         [Header("Jump Settings")]
         [SerializeField] float _jumpForce = 5f;
         [SerializeField] float _groundCheckDistance = 0.4f;
         [SerializeField] float _gravity = 9.4f;
         [SerializeField] float _gravityMultiplier = 2f;
-        
+        [Header("Camera Settings")]
+        [SerializeField] float _camRotationSpeed = 50f;
             #endregion
 
         #region PrivateFields
@@ -38,13 +38,12 @@ namespace _Project.Code.Gameplay
         bool _isGrounded;
         LayerMask _groundMask;
         float offset = 0.5f;
-        
         #endregion
         
         void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            _cineCamera = FindFirstObjectByType<CinemachineCamera>();
+            //_cineCamera = FindFirstObjectByType<CinemachineCamera>();
             _groundMask = LayerMask.GetMask("Ground");
             
             Cursor.lockState = CursorLockMode.Locked;
@@ -71,12 +70,19 @@ namespace _Project.Code.Gameplay
                 verticalVelocity = _jumpForce;
             }
         }
-        
+
+
+        void GroundCheck()
+        {
+            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
+
+            _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
+        }
 
         void PlayerMovement()
-        {
-            // create horizontalVector out of player input without y and multiply with speed
-           Vector3 horizontalVector =  (new Vector3(_moveInput.x , 0f, _moveInput.z) * _maxSpeed);
+        { 
+            Vector3 moveInput = new Vector3(_moveInput.x, 0, _moveInput.z);
+           Vector3 horizontalVector =  moveInput * _maxSpeed;
            
            // rate changes depends on if there is input or not. And lerp movement based on that
            float rate = horizontalVector.sqrMagnitude > 0.01f ? _acceleration : _deceleration;
@@ -95,13 +101,6 @@ namespace _Project.Code.Gameplay
            //put everything together
            _moveVector = new Vector3(_currentVector.x,verticalVelocity, _currentVector.z);
            _characterController.Move(_moveVector * Time.deltaTime);
-        }
-
-        void GroundCheck()
-        {
-            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
-
-            _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
         }
     }
 }

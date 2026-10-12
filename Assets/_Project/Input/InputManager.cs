@@ -23,16 +23,14 @@ namespace _Project.Input
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
             _actions.Player.Jump.performed += OnJumpPerformed;
-            //_actions.Player.Mouse.performed += OnMousePerformed;
-
-
+            //_actions.Player.Look.performed += OnLookPerformed;
         }
         void OnDisable()
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
             _actions.Player.Jump.performed -= OnJumpPerformed;
-            //_actions.Player.Mouse.performed += OnMousePerformed;
+            //_actions.Player.Look.performed -= OnLookPerformed;
             _actions.Disable();
         }
 
