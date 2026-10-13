@@ -4,6 +4,8 @@ using UnityEngine;
 namespace _Project.Code.Gameplay
 {
     public class PlayerController : MonoBehaviour
+    
+    
     {
         #region References
 
@@ -12,18 +14,18 @@ namespace _Project.Code.Gameplay
         
         #endregion
         
-        #region SerializeFields
+        #region SerializedFields
 
         [Header("Movement Settings")]
-        [SerializeField] float _maxSpeed = 10f;
-        [SerializeField] float _acceleration = 5f, _deceleration = 5f;
+        [SerializeField] float maxSpeed = 10f;
+        [SerializeField] float acceleration = 5f, _deceleration = 5f;
         [Header("Jump Settings")]
-        [SerializeField] float _jumpForce = 5f;
-        [SerializeField] float _groundCheckDistance = 0.4f;
-        [SerializeField] float _gravity = 9.4f;
-        [SerializeField] float _gravityMultiplier = 2f;
+        [SerializeField] float jumpForce = 5f;
+        [SerializeField] float groundCheckDistance = 0.4f;
+        [SerializeField] float gravity = 9.4f;
+        [SerializeField] float gravityMultiplier = 2f;
         [Header("Camera Settings")]
-        [SerializeField] float _camRotationSpeed = 50f;
+        [SerializeField] float camRotationSpeed = 50f;
             #endregion
 
         #region PrivateFields
@@ -32,12 +34,12 @@ namespace _Project.Code.Gameplay
         Vector3 _moveInput;
         Vector3 _currentVector;
         Vector3 _moveVector;
-        float verticalVelocity;
+        float _verticalVelocity;
 
         //JUMP
         bool _isGrounded;
         LayerMask _groundMask;
-        float offset = 0.5f;
+        float _offset = 0.5f;
         #endregion
         
         void Awake()
@@ -67,39 +69,39 @@ namespace _Project.Code.Gameplay
         {
             if (_isGrounded)
             {
-                verticalVelocity = _jumpForce;
+                _verticalVelocity = jumpForce;
             }
         }
 
 
         void GroundCheck()
         {
-            Ray ray = new Ray(transform.position + Vector3.down * offset , Vector3.down);
+            Ray ray = new Ray(transform.position + Vector3.down * _offset , Vector3.down);
 
-            _isGrounded = Physics.Raycast(ray, _groundCheckDistance, _groundMask);
+            _isGrounded = Physics.Raycast(ray, groundCheckDistance, _groundMask);
         }
 
         void PlayerMovement()
         { 
             Vector3 moveInput = new Vector3(_moveInput.x, 0, _moveInput.z);
-           Vector3 horizontalVector =  moveInput * _maxSpeed;
+            Vector3 horizontalVector =  moveInput * maxSpeed;
            
            // rate changes depends on if there is input or not. And lerp movement based on that
-           float rate = horizontalVector.sqrMagnitude > 0.01f ? _acceleration : _deceleration;
+           float rate = horizontalVector.sqrMagnitude > 0.01f ? acceleration : _deceleration;
            _currentVector = Vector3.Lerp(_currentVector, horizontalVector, rate * Time.deltaTime);
            
            //apply downforce to y 
-           if (_isGrounded && verticalVelocity < 0)
+           if (_isGrounded && _verticalVelocity < 0)
            {
-               verticalVelocity = -2f;
+               _verticalVelocity = -2f;
            }
            else
            {
-               verticalVelocity -= _gravity * _gravityMultiplier * Time.deltaTime;
+               _verticalVelocity -= gravity * gravityMultiplier * Time.deltaTime;
            }
            
            //put everything together
-           _moveVector = new Vector3(_currentVector.x,verticalVelocity, _currentVector.z);
+           _moveVector = new Vector3(_currentVector.x,_verticalVelocity, _currentVector.z);
            _characterController.Move(_moveVector * Time.deltaTime);
         }
     }
