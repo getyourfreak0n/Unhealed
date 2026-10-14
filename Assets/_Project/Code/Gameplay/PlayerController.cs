@@ -10,7 +10,7 @@ namespace _Project.Code.Gameplay
         #region References
 
         CharacterController _characterController;
-        //CinemachineCamera _cineCamera;
+        CinemachineCamera _cineCamera;
         
         #endregion
         
@@ -45,7 +45,7 @@ namespace _Project.Code.Gameplay
         void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            //_cineCamera = FindFirstObjectByType<CinemachineCamera>();
+            _cineCamera = FindFirstObjectByType<CinemachineCamera>();
             _groundMask = LayerMask.GetMask("Ground");
             
             Cursor.lockState = CursorLockMode.Locked;
@@ -82,11 +82,19 @@ namespace _Project.Code.Gameplay
         }
 
         void PlayerMovement()
-        { 
-            Vector3 moveInput = new Vector3(_moveInput.x, 0, _moveInput.z);
-            Vector3 horizontalVector =  moveInput * maxSpeed;
+        {            
+            Vector3 camForward = _cineCamera.transform.forward;
+            Vector3 camRight = _cineCamera.transform.right;
+            
+            camForward.y = 0;
+            camForward.Normalize();
            
-           // rate changes depends on if there is input or not. And lerp movement based on that
+
+            Vector3 moveInput = (_moveInput.x * camRight + _moveInput.z * camForward);
+            Vector3 horizontalVector =  moveInput * maxSpeed;
+
+
+            // rate changes depends on if there is input or not. And lerp movement based on that
            float rate = horizontalVector.sqrMagnitude > 0.01f ? acceleration : _deceleration;
            _currentVector = Vector3.Lerp(_currentVector, horizontalVector, rate * Time.deltaTime);
            

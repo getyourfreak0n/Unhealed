@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 472816990}
   - component: {fileID: 472816989}
   - component: {fileID: 472816988}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 924331207}
   - component: {fileID: 924331206}
   - component: {fileID: 924331205}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 1395911516}
   - component: {fileID: 1395911515}
   - component: {fileID: 1395911514}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1217,7 +1217,7 @@ GameObject:
   - component: {fileID: 1883183549}
   - component: {fileID: 1883183548}
   - component: {fileID: 1883183547}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1370,8 +1370,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: jumpForce
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: _lookSensitivity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: groundCheckDistance
+      value: 0.57
       objectReference: {fileID: 0}
     - target: {fileID: 2832026267871936892, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_Name
