@@ -137,8 +137,9 @@ MonoBehaviour:
   groundCheckDistance: 0.57
   gravity: 9.4
   gravityMultiplier: 1.23
-  camRotationSpeed: 300
-  mouseRigidity: 0.0117
+  coyoteTime: 0.2
+  camRotationSpeed: 350
+  mouseRigidity: 0.0102
 --- !u!1 &8386032394551818471
 GameObject:
   m_ObjectHideFlags: 0

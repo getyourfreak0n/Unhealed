@@ -1,16 +1,12 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Project.Code.Gameplay
 {
     public class PlayerController : MonoBehaviour
-    
-    
     {
         #region References
 
         CharacterController _characterController;
-        CinemachineInputAxisController _cineInput;
         
         #endregion
         
@@ -24,6 +20,7 @@ namespace _Project.Code.Gameplay
         [SerializeField] float groundCheckDistance = 0.4f;
         [SerializeField] float gravity = 9.4f;
         [SerializeField] float gravityMultiplier = 2f;
+        [SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
         [Header("Camera Settings")]
         [SerializeField] float camRotationSpeed = 50f;
         [SerializeField,Range(0f,0.05f)] float mouseRigidity = 0.03f;
@@ -39,8 +36,10 @@ namespace _Project.Code.Gameplay
 
         //JUMP
         bool _isGrounded;
+        bool _hasJumped;
         LayerMask _groundMask;
         float _offset = 0.5f;
+        float _lastGroundedTime;
         
         //Look
         float _lookInputX;
@@ -50,7 +49,6 @@ namespace _Project.Code.Gameplay
         void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            _cineInput = GetComponentInChildren<CinemachineInputAxisController>();
             _groundMask = LayerMask.GetMask("Ground");
             
             Cursor.lockState = CursorLockMode.Locked;
@@ -78,18 +76,26 @@ namespace _Project.Code.Gameplay
 
         public void OnJump()
         {
-            if (_isGrounded)
+            bool withinCoyoteTime = Time.time - _lastGroundedTime < coyoteTime;
+            
+            if (!_hasJumped && (_isGrounded || withinCoyoteTime))
             {
+                _hasJumped = true;
                 _verticalVelocity = jumpForce;
             }
         }
-
-
+        
         void GroundCheck()
         {
             Ray ray = new Ray(transform.position + Vector3.down * _offset , Vector3.down);
 
             _isGrounded = Physics.Raycast(ray, groundCheckDistance, _groundMask);
+
+            if (_isGrounded)
+            {
+                _hasJumped = false;
+                _lastGroundedTime = Time.time;
+            }
         }
 
         void PlayerMovement()
