@@ -23,14 +23,16 @@ namespace _Project.Input
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
             _actions.Player.Jump.performed += OnJumpPerformed;
-            //_actions.Player.Look.performed += OnLookPerformed;
+            _actions.Player.Look.performed += OnLookPerformed;
+            _actions.Player.Look.canceled += OnLookCanceled;
         }
         void OnDisable()
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
             _actions.Player.Jump.performed -= OnJumpPerformed;
-            //_actions.Player.Look.performed -= OnLookPerformed;
+            _actions.Player.Look.performed -= OnLookPerformed;
+            _actions.Player.Look.canceled -= OnLookCanceled;
             _actions.Disable();
         }
 
@@ -44,6 +46,16 @@ namespace _Project.Input
             _playerController.MoveInput(Vector2.zero);
         }
 
+        void OnLookPerformed(InputAction.CallbackContext ctx)
+        {
+            _playerController.LookInput(ctx.ReadValue<Vector2>());
+        }
+
+        void OnLookCanceled(InputAction.CallbackContext ctx)
+        {
+            _playerController.LookInput(Vector2.zero);
+        }
+        
         void OnJumpPerformed(InputAction.CallbackContext ctx)
         {
             _playerController.OnJump();

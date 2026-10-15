@@ -10,7 +10,7 @@ namespace _Project.Code.Gameplay
         #region References
 
         CharacterController _characterController;
-        CinemachineCamera _cineCamera;
+        CinemachineInputAxisController _cineInput;
         
         #endregion
         
@@ -26,6 +26,7 @@ namespace _Project.Code.Gameplay
         [SerializeField] float gravityMultiplier = 2f;
         [Header("Camera Settings")]
         [SerializeField] float camRotationSpeed = 50f;
+        [SerializeField,Range(0f,0.05f)] float mouseRigidity = 0.03f;
             #endregion
 
         #region PrivateFields
@@ -40,12 +41,16 @@ namespace _Project.Code.Gameplay
         bool _isGrounded;
         LayerMask _groundMask;
         float _offset = 0.5f;
+        
+        //Look
+        float _lookInputX;
+        Vector3 rotateVector;
         #endregion
         
         void Awake()
         {
             _characterController = GetComponent<CharacterController>();
-            _cineCamera = FindFirstObjectByType<CinemachineCamera>();
+            _cineInput = GetComponentInChildren<CinemachineInputAxisController>();
             _groundMask = LayerMask.GetMask("Ground");
             
             Cursor.lockState = CursorLockMode.Locked;
@@ -56,6 +61,7 @@ namespace _Project.Code.Gameplay
         { 
             GroundCheck();
             PlayerMovement();
+            PlayerRotation();
         }
 
         
@@ -63,6 +69,11 @@ namespace _Project.Code.Gameplay
         public void MoveInput(Vector2 moveInput)
         {
             _moveInput = Vector3.ClampMagnitude(new Vector3(moveInput.x, 0, moveInput.y), 1f);
+        }
+
+        public void LookInput(Vector2 lookInput)
+        {
+            _lookInputX = lookInput.x;
         }
 
         public void OnJump()
@@ -82,23 +93,13 @@ namespace _Project.Code.Gameplay
         }
 
         void PlayerMovement()
-        {            
-            Vector3 camForward = _cineCamera.transform.forward;
-            Vector3 camRight = _cineCamera.transform.right;
-            
-            camForward.y = 0;
-            camForward.Normalize();
-           
-
-            Vector3 moveInput = (_moveInput.x * camRight + _moveInput.z * camForward);
+        {
+            Vector3 moveInput = ((transform.right * _moveInput.x) + (transform.forward * _moveInput.z));
             Vector3 horizontalVector =  moveInput * maxSpeed;
 
-
-            // rate changes depends on if there is input or not. And lerp movement based on that
-           float rate = horizontalVector.sqrMagnitude > 0.01f ? acceleration : _deceleration;
+            float rate = horizontalVector.sqrMagnitude > 0.01f ? acceleration : _deceleration;
            _currentVector = Vector3.Lerp(_currentVector, horizontalVector, rate * Time.deltaTime);
            
-           //apply downforce to y 
            if (_isGrounded && _verticalVelocity < 0)
            {
                _verticalVelocity = -2f;
@@ -108,9 +109,25 @@ namespace _Project.Code.Gameplay
                _verticalVelocity -= gravity * gravityMultiplier * Time.deltaTime;
            }
            
-           //put everything together
            _moveVector = new Vector3(_currentVector.x,_verticalVelocity, _currentVector.z);
            _characterController.Move(_moveVector * Time.deltaTime);
+           
+           
+        }
+
+        void PlayerRotation()
+        {
+            if (_lookInputX != 0f && Mathf.Abs(_lookInputX) > mouseRigidity)
+            {
+                rotateVector = new Vector3( 0, _lookInputX, 0);
+                rotateVector.Normalize();     
+            }
+            else
+            {
+                rotateVector = Vector3.zero;
+            }
+            
+            transform.Rotate( camRotationSpeed * Time.deltaTime * rotateVector);
         }
     }
 }
