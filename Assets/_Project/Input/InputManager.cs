@@ -1,5 +1,6 @@
 using _Project.Code.Core.Singleton;
 using _Project.Code.Gameplay;
+using _Project.Code.Gameplay.Combat;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,12 +10,14 @@ namespace _Project.Input
     {
         NewInputActions _actions;
         PlayerController _playerController;
+        PlayerShooter _playerShooter;
 
         protected override void Awake()
         {
             base.Awake();
             _actions = new NewInputActions();
             _playerController = FindAnyObjectByType<PlayerController>();
+            _playerShooter = FindAnyObjectByType<PlayerShooter>();
         }
 
         void OnEnable()
@@ -25,6 +28,7 @@ namespace _Project.Input
             _actions.Player.Jump.performed += OnJumpPerformed;
             _actions.Player.Look.performed += OnLookPerformed;
             _actions.Player.Look.canceled += OnLookCanceled;
+            _actions.Player.Shoot.performed += OnShootPerformed;
         }
         void OnDisable()
         {
@@ -33,7 +37,13 @@ namespace _Project.Input
             _actions.Player.Jump.performed -= OnJumpPerformed;
             _actions.Player.Look.performed -= OnLookPerformed;
             _actions.Player.Look.canceled -= OnLookCanceled;
+            _actions.Player.Shoot.performed -= OnShootPerformed;
             _actions.Disable();
+        }
+
+        void OnShootPerformed(InputAction.CallbackContext obj)
+        {
+            _playerShooter.Shoot();
         }
 
         void OnMovePerformed(InputAction.CallbackContext ctx)
@@ -60,5 +70,7 @@ namespace _Project.Input
         {
             _playerController.OnJump();
         }
+        
+        
     }
 }
