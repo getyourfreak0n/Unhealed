@@ -15,12 +15,14 @@ namespace _Project.Code.Gameplay.Combat
 
         //private fields
         LayerMask _enemyLayer;
+        Animator _animator;
         float _lastFireTime;
         int _currentWeapon;
         
         void Awake()
         {
             _enemyLayer = LayerMask.GetMask("Enemy");
+            _animator = GetComponentInChildren<Animator>();
             _currentWeapon = 0;
         }
 
@@ -46,6 +48,8 @@ namespace _Project.Code.Gameplay.Combat
         {
             if (RateOfFire()) return;
 
+            _animator.SetTrigger("isShooting");
+            
             Ray ray = new Ray(crosshair.position, crosshair.forward);
             
             if (Physics.SphereCast(ray, fireRadius, out RaycastHit hit, 100f, _enemyLayer))

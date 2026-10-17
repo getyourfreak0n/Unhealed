@@ -119,6 +119,33 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &149933775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2330313465841688496, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+  m_PrefabInstance: {fileID: 7505674839042051934}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &149933778
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149933775}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60866494fe32dcb40afe2297f24dfec2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &268813786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,6 +1536,10 @@ PrefabInstance:
       propertyPath: mouseRigidity
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: camRotationSpeed
+      value: 340
+      objectReference: {fileID: 0}
     - target: {fileID: 2330313465841688496, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_Name
       value: Gun
@@ -1571,6 +1602,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2832026267871936892, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7505674839042051936}
+    - targetCorrespondingSourceObject: {fileID: 2330313465841688496, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 149933778}
   m_SourcePrefab: {fileID: 100100000, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
 --- !u!1 &7505674839042051935 stripped
 GameObject:
