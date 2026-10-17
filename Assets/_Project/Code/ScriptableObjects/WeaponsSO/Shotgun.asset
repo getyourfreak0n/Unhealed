@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.ScriptableObjects.WeaponsSO
   damage: 50
-  nextFireTime: 1.1
+  nextFireTime: 1.4
   clip: {fileID: 8300000, guid: 03e30029520542044a66c047780cc133, type: 3}
   weaponAnimator: {fileID: 9100000, guid: aaf19d45a87a1784992d68c23ca866f0, type: 2}
-  spritePosition: {x: 0, y: 0, z: 0}
   spriteScale: {x: 1, y: 1, z: 1}

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.ScriptableObjects.WeaponsSO
   damage: 10
-  nextFireTime: 0.5
+  nextFireTime: 0.6
   clip: {fileID: 8300000, guid: a43bf22c94db31c4194a9258e0b3762c, type: 3}
   weaponAnimator: {fileID: 9100000, guid: 60866494fe32dcb40afe2297f24dfec2, type: 2}
-  spritePosition: {x: 0, y: 0, z: 0}
   spriteScale: {x: 0.1, y: 0.1, z: 0.1}
