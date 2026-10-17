@@ -7,5 +7,6 @@ namespace _Project.Code.ScriptableObjects
     {
         public float damage;
         public float nextFireTime;
+        public AudioClip clip;
     }
 }

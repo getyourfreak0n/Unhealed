@@ -49,6 +49,7 @@ namespace _Project.Code.Gameplay.Combat
             if (RateOfFire()) return;
 
             _animator.SetTrigger("isShooting");
+            AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip);
             
             Ray ray = new Ray(crosshair.position, crosshair.forward);
             
