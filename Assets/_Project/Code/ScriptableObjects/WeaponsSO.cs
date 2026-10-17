@@ -10,7 +10,6 @@ namespace _Project.Code.ScriptableObjects
         public float nextFireTime;
         public AudioClip clip;
         public AnimatorController weaponAnimator;
-        public Vector3 spritePosition;
         public Vector3 spriteScale;
     }
 }

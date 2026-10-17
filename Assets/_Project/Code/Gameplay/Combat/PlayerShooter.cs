@@ -39,12 +39,14 @@ namespace _Project.Code.Gameplay.Combat
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 _currentWeapon = 1;
+                _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 _currentWeapon = 0;
+                _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
                 
             }
