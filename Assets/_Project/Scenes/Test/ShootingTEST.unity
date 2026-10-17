@@ -146,6 +146,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &149933780 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4059059411860227490, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+  m_PrefabInstance: {fileID: 7505674839042051934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &268813786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,9 +1696,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4059059411860227490, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059059411860227490, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059059411860227490, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8093c51e84de6bc48b6fba1ec429dbf6, type: 2}
+    - target: {fileID: 7438264828498247637, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438264828498247637, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438264828498247637, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.98
+      objectReference: {fileID: 0}
     - target: {fileID: 7438264828498247637, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 7438264828498247637, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8035355333228439819, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1766,12 +1799,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f7346de6c5e5b4a8f99208a0a48996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
-  crosshair: {fileID: 1853493155}
+  crosshair: {fileID: 889054608}
   fireRadius: 0.18
   nextFireTime: 0.4
   _weaponsSO:
   - {fileID: 11400000, guid: db91f196a70edcf4485af42ef2de1021, type: 2}
   - {fileID: 11400000, guid: 3255f130c6ad53447991216689b88a01, type: 2}
+  _gunRenderer: {fileID: 149933780}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

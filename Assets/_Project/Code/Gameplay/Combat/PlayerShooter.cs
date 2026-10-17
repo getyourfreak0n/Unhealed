@@ -12,10 +12,12 @@ namespace _Project.Code.Gameplay.Combat
         [SerializeField] float fireRadius = 0.4f;
         [SerializeField] float nextFireTime = 0.4f;
         [SerializeField] WeaponsSO[] _weaponsSO;
-
+        [SerializeField] private SpriteRenderer _gunRenderer;
+        
         //private fields
         LayerMask _enemyLayer;
         Animator _animator;
+        
         float _lastFireTime;
         int _currentWeapon;
         
@@ -23,6 +25,7 @@ namespace _Project.Code.Gameplay.Combat
         {
             _enemyLayer = LayerMask.GetMask("Enemy");
             _animator = GetComponentInChildren<Animator>();
+            
             _currentWeapon = 0;
         }
 
@@ -36,11 +39,14 @@ namespace _Project.Code.Gameplay.Combat
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 _currentWeapon = 1;
+                _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 _currentWeapon = 0;
+                _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
+                
             }
         }
         
