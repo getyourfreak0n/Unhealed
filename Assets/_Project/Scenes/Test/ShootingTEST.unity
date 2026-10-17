@@ -1591,6 +1591,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
   crosshair: {fileID: 1853493155}
   fireRadius: 0.18
+  nextFireTime: 0.4
+  _weaponsSO:
+  - {fileID: 11400000, guid: db91f196a70edcf4485af42ef2de1021, type: 2}
+  - {fileID: 11400000, guid: 3255f130c6ad53447991216689b88a01, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

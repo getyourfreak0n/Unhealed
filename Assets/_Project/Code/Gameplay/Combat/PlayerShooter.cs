@@ -1,5 +1,7 @@
 using _Project.Code.Enemy;
+using _Project.Code.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Project.Code.Gameplay.Combat
 {
@@ -9,16 +11,37 @@ namespace _Project.Code.Gameplay.Combat
         [SerializeField] Transform crosshair;
         [SerializeField] float fireRadius = 0.4f;
         [SerializeField] float nextFireTime = 0.4f;
+        [SerializeField] WeaponsSO[] _weaponsSO;
 
         //private fields
         LayerMask _enemyLayer;
         float _lastFireTime;
+        int _currentWeapon;
         
         void Awake()
         {
             _enemyLayer = LayerMask.GetMask("Enemy");
+            _currentWeapon = 0;
         }
 
+        void Update()
+        {
+            WeaponSwitcher();    
+        }
+
+        void WeaponSwitcher()
+        {
+            if (Keyboard.current.digit1Key.wasPressedThisFrame)
+            {
+                _currentWeapon = 1;
+            }
+
+            if (Keyboard.current.digit2Key.wasPressedThisFrame)
+            {
+                _currentWeapon = 0;
+            }
+        }
+        
         public void Shoot()
         {
             if (RateOfFire()) return;
@@ -29,14 +52,14 @@ namespace _Project.Code.Gameplay.Combat
             { 
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
-                        enemy.TakeDamage();
+                        enemy.TakeDamage(_weaponsSO[_currentWeapon].damage);
                 }
             }
         }
 
         bool RateOfFire()
         {
-            if (Time.time - _lastFireTime <= nextFireTime)
+            if (Time.time - _lastFireTime <= _weaponsSO[_currentWeapon].nextFireTime)
             {
                 return true;
             }
