@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.ScriptableObjects.WeaponsSO
   damage: 50
-  nextFireTime: 1
+  nextFireTime: 1.1
