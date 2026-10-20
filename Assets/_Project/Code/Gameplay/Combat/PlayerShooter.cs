@@ -83,9 +83,9 @@ namespace _Project.Code.Gameplay.Combat
                     
                     switch (hit.distance)
                     {
-                        case <= 8f:
+                        case <= 5f:
                             break;  
-                        case <= 16f:
+                        case <= 12f:
                             damage *= 0.8f;
                             break;
                         default:
@@ -102,7 +102,7 @@ namespace _Project.Code.Gameplay.Combat
         IEnumerator Recoil()
         {
             _targetTilt = _tiltAxis.TiltAxis.Value - _recoilAmount;
-            
+                                                            
             while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _targetTilt) > 0.01f)
             { 
                 _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
