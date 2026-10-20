@@ -75,11 +75,25 @@ namespace _Project.Code.Gameplay.Combat
             
             Ray ray = new Ray(crosshair.position, crosshair.forward);
             
-            if (Physics.SphereCast(ray, fireRadius, out RaycastHit hit, 100f, _enemyLayer))
+            if (Physics.SphereCast(ray, fireRadius, out RaycastHit hit, 70f, _enemyLayer))
             { 
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
-                    enemy.TakeDamage(_weaponsSO[_currentWeapon].damage);
+                    float damage = _weaponsSO[_currentWeapon].damage;
+                    
+                    switch (hit.distance)
+                    {
+                        case <= 8f:
+                            break;  
+                        case <= 16f:
+                            damage *= 0.8f;
+                            break;
+                        default:
+                            damage *= 0.5f;
+                            break;
+                    }
+                   
+                    enemy.TakeDamage(damage);
                     enemy.HitVFX(hit.point, hit.normal);
                 }
             }
