@@ -19,20 +19,20 @@ namespace _Project.Code.Gameplay.Combat
         //private fields
         LayerMask _enemyLayer;
         Animator _animator;
-        CinemachinePanTilt _panTilt;
+        CinemachinePanTilt _tiltAxis;
         
         float _lastFireTime;
         float _recoilAmount;
         float _recoilSpeed;
         int _currentWeapon;
-        float _currentTilt;
         float _targetTilt;
+        float _recoveryTilt;
         
         void Awake()
         {
             _enemyLayer = LayerMask.GetMask("Enemy");
             _animator = GetComponentInChildren<Animator>();
-            _panTilt = GetComponentInChildren<CinemachinePanTilt>();
+            _tiltAxis = GetComponentInChildren<CinemachinePanTilt>();
             
             _currentWeapon = 0;
             _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
@@ -86,15 +86,23 @@ namespace _Project.Code.Gameplay.Combat
 
         IEnumerator Recoil()
         {
-            _currentTilt = _panTilt.TiltAxis.Value;
-            _targetTilt = _currentTilt - _recoilAmount;
+            _targetTilt = _tiltAxis.TiltAxis.Value - _recoilAmount;
             
-            while (Mathf.Abs(_panTilt.TiltAxis.Value - _targetTilt) > 0.01f)
+            while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _targetTilt) > 0.01f)
             { 
-                _panTilt.TiltAxis.Value = Mathf.MoveTowards
-                    (_panTilt.TiltAxis.Value, _targetTilt , _recoilSpeed);
+                _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
+                    (_tiltAxis.TiltAxis.Value, _targetTilt , _recoilSpeed);
                 
                 yield return null;
+            }
+            
+            _recoveryTilt = _tiltAxis.TiltAxis.Value + _recoilAmount / 3;
+
+            while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _recoveryTilt ) > 0.01f)
+            {
+                    _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
+                        (_tiltAxis.TiltAxis.Value, _recoveryTilt, _recoilSpeed / 3);
+                    yield return null;
             }
         }
 
