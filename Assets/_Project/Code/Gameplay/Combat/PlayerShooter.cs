@@ -80,6 +80,7 @@ namespace _Project.Code.Gameplay.Combat
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
                     enemy.TakeDamage(_weaponsSO[_currentWeapon].damage);
+                    enemy.HitVFX(hit.point, hit.normal);
                 }
             }
         }

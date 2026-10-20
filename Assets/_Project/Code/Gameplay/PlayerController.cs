@@ -48,10 +48,11 @@ namespace _Project.Code.Gameplay
         
         void Awake()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            
             _characterController = GetComponent<CharacterController>();
             _groundMask = LayerMask.GetMask("Ground");
-            
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
 
