@@ -22,7 +22,11 @@ namespace _Project.Code.Gameplay.Combat
         CinemachinePanTilt _panTilt;
         
         float _lastFireTime;
+        float _recoilAmount;
+        float _recoilSpeed;
         int _currentWeapon;
+        float _currentTilt;
+        float _targetTilt;
         
         void Awake()
         {
@@ -31,6 +35,8 @@ namespace _Project.Code.Gameplay.Combat
             _panTilt = GetComponentInChildren<CinemachinePanTilt>();
             
             _currentWeapon = 0;
+            _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
+            _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
         }
 
         void Update()
@@ -45,6 +51,8 @@ namespace _Project.Code.Gameplay.Combat
                 _currentWeapon = 1;
                 _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
+                _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
+                _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
@@ -52,7 +60,8 @@ namespace _Project.Code.Gameplay.Combat
                 _currentWeapon = 0;
                 _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
-                
+                _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
+                _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
             }
         }
         
@@ -77,9 +86,16 @@ namespace _Project.Code.Gameplay.Combat
 
         IEnumerator Recoil()
         {
-            _panTilt.TiltAxis.Value -= _weaponsSO[_currentWeapon].recoilAmount;
-
-            yield return null;
+            _currentTilt = _panTilt.TiltAxis.Value;
+            _targetTilt = _currentTilt - _recoilAmount;
+            
+            while (Mathf.Abs(_panTilt.TiltAxis.Value - _targetTilt) > 0.01f)
+            { 
+                _panTilt.TiltAxis.Value = Mathf.MoveTowards
+                    (_panTilt.TiltAxis.Value, _targetTilt , _recoilSpeed);
+                
+                yield return null;
+            }
         }
 
         bool RateOfFire()
