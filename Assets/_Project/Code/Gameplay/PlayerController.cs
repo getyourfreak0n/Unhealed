@@ -22,7 +22,7 @@ namespace _Project.Code.Gameplay
         [SerializeField] float gravityMultiplier = 2f;
         [SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
         [Header("Camera Settings")]
-        [SerializeField] float camRotationSpeed = 50f;
+        [SerializeField,Range(0f,1f)] float mouseSensitivity = 0.2f;
         [SerializeField,Range(0f,0.05f)] float mouseRigidity = 0.03f;
             #endregion
 
@@ -117,8 +117,6 @@ namespace _Project.Code.Gameplay
            
            _moveVector = new Vector3(_currentVector.x,_verticalVelocity, _currentVector.z);
            _characterController.Move(_moveVector * Time.deltaTime);
-           
-           
         }
 
         void PlayerRotation()
@@ -126,14 +124,13 @@ namespace _Project.Code.Gameplay
             if (_lookInputX != 0f && Mathf.Abs(_lookInputX) > mouseRigidity)
             {
                 rotateVector = new Vector3( 0, _lookInputX, 0);
-                rotateVector.Normalize();     
             }
             else
             {
                 rotateVector = Vector3.zero;
             }
             
-            transform.Rotate( camRotationSpeed * Time.deltaTime * rotateVector);
+            transform.Rotate( mouseSensitivity * rotateVector);
         }
     }
 }

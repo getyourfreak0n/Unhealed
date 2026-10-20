@@ -1,5 +1,7 @@
+using System.Collections;
 using _Project.Code.Enemy;
 using _Project.Code.ScriptableObjects;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +19,7 @@ namespace _Project.Code.Gameplay.Combat
         //private fields
         LayerMask _enemyLayer;
         Animator _animator;
+        CinemachinePanTilt _panTilt;
         
         float _lastFireTime;
         int _currentWeapon;
@@ -25,6 +28,7 @@ namespace _Project.Code.Gameplay.Combat
         {
             _enemyLayer = LayerMask.GetMask("Enemy");
             _animator = GetComponentInChildren<Animator>();
+            _panTilt = GetComponentInChildren<CinemachinePanTilt>();
             
             _currentWeapon = 0;
         }
@@ -56,6 +60,7 @@ namespace _Project.Code.Gameplay.Combat
         {
             if (RateOfFire()) return;
 
+            StartCoroutine(Recoil());
             _animator.SetTrigger("isShooting");
             AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip);
             
@@ -65,9 +70,16 @@ namespace _Project.Code.Gameplay.Combat
             { 
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
-                        enemy.TakeDamage(_weaponsSO[_currentWeapon].damage);
+                    enemy.TakeDamage(_weaponsSO[_currentWeapon].damage);
                 }
             }
+        }
+
+        IEnumerator Recoil()
+        {
+            _panTilt.TiltAxis.Value -= _weaponsSO[_currentWeapon].recoilAmount;
+
+            yield return null;
         }
 
         bool RateOfFire()
