@@ -1,6 +1,7 @@
 using System.Collections;
 using _Project.Code.Enemy;
 using _Project.Code.ScriptableObjects;
+using _Project.Code.UI;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -72,6 +73,7 @@ namespace _Project.Code.Gameplay.Combat
             StartCoroutine(Recoil());
             _animator.SetTrigger("isShooting");
             AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip);
+            UIManager.Instance.TriggerCoroutine();
             
             Ray ray = new Ray(crosshair.position, crosshair.forward);
             
@@ -101,7 +103,7 @@ namespace _Project.Code.Gameplay.Combat
 
         IEnumerator Recoil()
         {
-            _targetTilt = _tiltAxis.TiltAxis.Value - _recoilAmount;
+            _targetTilt = _tiltAxis.TiltAxis.ClampValue(_tiltAxis.TiltAxis.Value - _recoilAmount);
                                                             
             while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _targetTilt) > 0.01f)
             { 
@@ -111,12 +113,12 @@ namespace _Project.Code.Gameplay.Combat
                 yield return null;
             }
             
-            _recoveryTilt = _tiltAxis.TiltAxis.Value + _recoilAmount / 3;
+            _recoveryTilt = _tiltAxis.TiltAxis.ClampValue(_tiltAxis.TiltAxis.Value + (_recoilAmount * 0.3f));
 
             while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _recoveryTilt ) > 0.01f)
             {
                     _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
-                        (_tiltAxis.TiltAxis.Value, _recoveryTilt, _recoilSpeed / 3);
+                        (_tiltAxis.TiltAxis.Value, _recoveryTilt, (_recoilSpeed * 0.3f));
                     yield return null;
             }
         }
