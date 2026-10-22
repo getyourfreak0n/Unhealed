@@ -1,6 +1,7 @@
 using _Project.Code.Core.Singleton;
 using _Project.Code.Gameplay;
 using _Project.Code.Gameplay.Combat;
+using _Project.Code.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,7 +26,8 @@ namespace _Project.Input
             _actions.Enable();
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
-            _actions.Player.Jump.performed += OnJumpPerformed;
+            _actions.Player.Jump.performed += OnJump;
+            _actions.Player.Jump.canceled += OnJump;
             _actions.Player.Look.performed += OnLookPerformed;
             _actions.Player.Look.canceled += OnLookCanceled;
             _actions.Player.Shoot.performed += OnShootPerformed;
@@ -34,7 +36,8 @@ namespace _Project.Input
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
-            _actions.Player.Jump.performed -= OnJumpPerformed;
+            _actions.Player.Jump.performed -= OnJump;
+            _actions.Player.Jump.canceled -= OnJump;
             _actions.Player.Look.performed -= OnLookPerformed;
             _actions.Player.Look.canceled -= OnLookCanceled;
             _actions.Player.Shoot.performed -= OnShootPerformed;
@@ -48,29 +51,35 @@ namespace _Project.Input
 
         void OnMovePerformed(InputAction.CallbackContext ctx)
         {
-            _playerController.MoveInput(ctx.ReadValue<Vector2>());
+            _playerController.GetMoveInput(ctx.ReadValue<Vector2>());
         }
 
         void OnMoveCanceled(InputAction.CallbackContext ctx)
         {
-            _playerController.MoveInput(Vector2.zero);
+            _playerController.GetMoveInput(Vector2.zero);
         }
 
         void OnLookPerformed(InputAction.CallbackContext ctx)
         {
-            _playerController.LookInput(ctx.ReadValue<Vector2>());
+            _playerController.GetLookInput(ctx.ReadValue<Vector2>());
         }
 
         void OnLookCanceled(InputAction.CallbackContext ctx)
         {
-            _playerController.LookInput(Vector2.zero);
+            _playerController.GetLookInput(Vector2.zero);
         }
         
-        void OnJumpPerformed(InputAction.CallbackContext ctx)
+        void OnJump(InputAction.CallbackContext ctx)
         {
-            _playerController.OnJump();
+            if (ctx.performed)
+            {
+                _playerController.OnJump(true);
+            }
+
+            if (ctx.canceled)
+            {
+                _playerController.OnJump(false);
+            }
         }
-        
-        
     }
 }

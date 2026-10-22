@@ -1,3 +1,4 @@
+/*
 using System.Collections;
 using _Project.Code.Core.Singleton;
 using Unity.Cinemachine;
@@ -10,19 +11,6 @@ namespace _Project.Code.UI
         
         [SerializeField] CinemachineCamera cam;
         
-        private float _targetValue;
-
-        private IEnumerator EffectFOV()
-        {
-            _targetValue = cam.Lens.FieldOfView + 1f;
-            cam.Lens.FieldOfView = _targetValue;
-                
-            yield return null;
-        }
-        
-        public void TriggerCoroutine()
-        {
-            StartCoroutine(EffectFOV());
-        }
     }
 }
+*/

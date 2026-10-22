@@ -16,6 +16,8 @@ MonoBehaviour:
   nextFireTime: 1.4
   recoilAmount: 20
   recoilSpeed: 3.15
+  spreadAmount: 1.5
+  fireDistance: 20
   clip: {fileID: 8300000, guid: 03e30029520542044a66c047780cc133, type: 3}
   weaponAnimator: {fileID: 9100000, guid: aaf19d45a87a1784992d68c23ca866f0, type: 2}
   spriteScale: {x: 1, y: 1, z: 1}
