@@ -10,7 +10,6 @@ namespace _Project.Code.Player
 
         public CharacterController CharacterController {get; private set;}
         
-        
         // State Machine 
         public StateMachine StateMachine {get; private set;}
         public DefaultState DefaultState {get; private set;}
@@ -20,21 +19,15 @@ namespace _Project.Code.Player
         
         #region SerializedFields
 
-        [Header("Movement Settings")]
-        
         [field:SerializeField] public float maxSpeed { get; private set; } = 10f;
         [field:SerializeField] public float acceleration { get; private set; } = 5f; 
         [field:SerializeField] public float deceleration { get; private set; } = 5f;
-        
-        [Header("Jump Settings")]
-        
         [field:SerializeField] public float gravity { get; private set; }= 9.4f;
         [field:SerializeField] public float gravityMultiplier { get; private set; } = 2f;
         [field:SerializeField] public float groundCheckDistance { get; private set; } = 0.4f;
         [field:SerializeField] public float jumpForce { get; private set; }= 5f;
         [SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
         
-        [Header("Camera Settings")]
         
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
         [field:SerializeField,Range(0f,0.05f)] public float mouseRigidity { get; private set; }= 0.03f;
@@ -48,13 +41,12 @@ namespace _Project.Code.Player
         public Vector3 CurrentVector {get; set;}
         public Vector3 MoveVector {get; set;}
         public float VerticalVelocity {get; set;}
-
+        
         //JUMP
-        public LayerMask GroundMask {get; private set;}
+        public LayerMask GroundLayer {get; private set;}
         public bool IsGrounded  {get; set;}
         public bool IsJumping {get; set;}
         bool _hasJumped;
-        public float Offset { get; private set; }= 0.5f;
         float _lastGroundedTime;
         
         //Look
@@ -76,7 +68,7 @@ namespace _Project.Code.Player
             JumpState = new JumpState(this);
             
             CharacterController = GetComponent<CharacterController>();
-            GroundMask = LayerMask.GetMask("Ground");
+            GroundLayer = LayerMask.GetMask("Ground");
         }
 
         void Start()
@@ -86,7 +78,9 @@ namespace _Project.Code.Player
         
         void Update()
         { 
-            StateMachine.UpdateState();
+            GroundCheck();
+            
+            StateMachine._currentState?.Update();
         }
         
         public void GetMoveInput(Vector2 moveInput)
@@ -102,8 +96,16 @@ namespace _Project.Code.Player
         public void OnJump(bool isJumping)
         {
             IsJumping = isJumping;
+        }
+        
+        void GroundCheck()
+        {
+            Ray ray = new Ray(transform.position , Vector3.down);
+
+            IsGrounded = Physics.Raycast(ray, 1.3f,GroundLayer);
             
-            Debug.Log(isJumping);
+            Debug.DrawRay(transform.position , Vector3.down * 1.3f);
+            Debug.Log(IsGrounded);
         }
     }
 }
