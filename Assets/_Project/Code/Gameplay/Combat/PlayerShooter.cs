@@ -11,7 +11,6 @@ namespace _Project.Code.Gameplay.Combat
     {
         //serialized fields
         [SerializeField] Transform crosshair;
-        [SerializeField] float nextFireTime = 0.4f;
         [SerializeField] WeaponsSO[] _weaponsSO;
         [SerializeField] private SpriteRenderer _gunRenderer;
         

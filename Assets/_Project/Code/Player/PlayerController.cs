@@ -24,9 +24,9 @@ namespace _Project.Code.Player
         [field:SerializeField] public float deceleration { get; private set; } = 5f;
         [field:SerializeField] public float gravity { get; private set; }= 9.4f;
         [field:SerializeField] public float gravityMultiplier { get; private set; } = 2f;
-        [field:SerializeField] public float groundCheckDistance { get; private set; } = 0.4f;
         [field:SerializeField] public float jumpForce { get; private set; }= 5f;
-        [SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
+        [field:SerializeField] public float groundCheckDelay { get; private set; }= 0.4f;
+        //[SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
         
         
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
@@ -43,12 +43,10 @@ namespace _Project.Code.Player
         public float VerticalVelocity {get; set;}
         
         //JUMP
-        public LayerMask GroundLayer {get; private set;}
-        public bool IsGrounded  {get; set;}
+        public float _lastJumpTime {get; private set;}
         public bool IsJumping {get; set;}
         bool _hasJumped;
-        float _lastGroundedTime;
-        
+
         //Look
         public float LookInputX {get; private set;}
         public Vector3 RotateVector {get; set;}
@@ -68,7 +66,6 @@ namespace _Project.Code.Player
             JumpState = new JumpState(this);
             
             CharacterController = GetComponent<CharacterController>();
-            GroundLayer = LayerMask.GetMask("Ground");
         }
 
         void Start()
@@ -78,8 +75,6 @@ namespace _Project.Code.Player
         
         void Update()
         { 
-            GroundCheck();
-            
             StateMachine._currentState?.Update();
         }
         
@@ -95,17 +90,12 @@ namespace _Project.Code.Player
 
         public void OnJump(bool isJumping)
         {
-            IsJumping = isJumping;
-        }
-        
-        void GroundCheck()
-        {
-            Ray ray = new Ray(transform.position , Vector3.down);
-
-            IsGrounded = Physics.Raycast(ray, 1.3f,GroundLayer);
-            
-            Debug.DrawRay(transform.position , Vector3.down * 1.3f);
-            Debug.Log(IsGrounded);
-        }
+            if (isJumping && CharacterController.isGrounded)
+            {
+                _lastJumpTime = Time.time;
+                IsJumping = isJumping;
+                StateMachine.ChangeState(JumpState);
+            }
+        } 
     }
 }

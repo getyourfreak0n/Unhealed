@@ -18,10 +18,8 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
 
         public void Update()
         {
-            
             PlayerMovement();
             PlayerRotation();
-            Jump();
         }
 
         public void Exit()
@@ -38,7 +36,7 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
             float rate = horizontalVector.sqrMagnitude > 0.01f ? _player.acceleration : _player.deceleration;
             _player.CurrentVector = Vector3.Lerp(_player.CurrentVector, horizontalVector, rate * Time.deltaTime);
             
-            //_player.VerticalVelocity = -2f;
+            _player.VerticalVelocity = -2f;
             
             _player.MoveVector = new Vector3(_player.CurrentVector.x,_player.VerticalVelocity, _player.CurrentVector.z);
             _player.CharacterController.Move(_player.MoveVector * Time.deltaTime);
@@ -58,14 +56,5 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
             _player.transform.Rotate( _player.mouseSensitivity * _player.RotateVector);
         }
         
-        
-        
-        void Jump()
-        {
-            if (_player.IsJumping)
-            {
-                _player.StateMachine.ChangeState(_player.JumpState);
-            }
-        }
     }
 }
