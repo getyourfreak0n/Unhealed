@@ -21,7 +21,7 @@ namespace _Project.Code.Gameplay.StateMachine
 
         public void UpdateState()
         {
-            _currentState?.Update();
+            _currentState?.FrameUpdate();
         }
     }
 }

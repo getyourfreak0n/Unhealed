@@ -15,8 +15,8 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
         public void Enter()
         {
         }
-
-        public void Update()
+        
+        public void FrameUpdate()
         {
             PlayerMovement();
             PlayerRotation();

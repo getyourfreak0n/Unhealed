@@ -1,5 +1,4 @@
 using _Project.Code.Core.Singleton;
-using _Project.Code.Gameplay;
 using _Project.Code.Gameplay.Combat;
 using _Project.Code.Player;
 using UnityEngine;
@@ -10,14 +9,14 @@ namespace _Project.Input
     public class InputManager : SingletonBase<InputManager>
     {
         NewInputActions _actions;
-        PlayerController _playerController;
+        PlayerController _player;
         PlayerShooter _playerShooter;
 
         protected override void Awake()
         {
             base.Awake();
             _actions = new NewInputActions();
-            _playerController = FindAnyObjectByType<PlayerController>();
+            _player = FindAnyObjectByType<PlayerController>();
             _playerShooter = FindAnyObjectByType<PlayerShooter>();
         }
 
@@ -26,8 +25,10 @@ namespace _Project.Input
             _actions.Enable();
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
-            _actions.Player.Jump.performed += OnJump;
-            _actions.Player.Jump.canceled += OnJump;
+            // _actions.Player.Jump.performed += OnJump;
+            // _actions.Player.Jump.canceled += OnJump;
+            _actions.Player.Dash.performed += OnDash;
+            _actions.Player.Dash.canceled += OnDash;
             _actions.Player.Look.performed += OnLookPerformed;
             _actions.Player.Look.canceled += OnLookCanceled;
             _actions.Player.Shoot.performed += OnShootPerformed;
@@ -36,8 +37,10 @@ namespace _Project.Input
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
-            _actions.Player.Jump.performed -= OnJump;
-            _actions.Player.Jump.canceled -= OnJump;
+            //_actions.Player.Jump.performed -= OnJump;
+            //_actions.Player.Jump.canceled -= OnJump;
+            _actions.Player.Dash.performed -= OnDash;
+            _actions.Player.Dash.canceled -= OnDash;
             _actions.Player.Look.performed -= OnLookPerformed;
             _actions.Player.Look.canceled -= OnLookCanceled;
             _actions.Player.Shoot.performed -= OnShootPerformed;
@@ -51,25 +54,38 @@ namespace _Project.Input
 
         void OnMovePerformed(InputAction.CallbackContext ctx)
         {
-            _playerController.GetMoveInput(ctx.ReadValue<Vector2>());
+            _player.GetMoveInput(ctx.ReadValue<Vector2>());
         }
 
         void OnMoveCanceled(InputAction.CallbackContext ctx)
         {
-            _playerController.GetMoveInput(Vector2.zero);
+            _player.GetMoveInput(Vector2.zero);
         }
 
         void OnLookPerformed(InputAction.CallbackContext ctx)
         {
-            _playerController.GetLookInput(ctx.ReadValue<Vector2>());
+            _player.GetLookInput(ctx.ReadValue<Vector2>());
         }
 
         void OnLookCanceled(InputAction.CallbackContext ctx)
         {
-            _playerController.GetLookInput(Vector2.zero);
+            _player.GetLookInput(Vector2.zero);
+        }
+
+        void OnDash(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                _player.OnDash(true);            
+            }
+
+            if (ctx.canceled)
+            {
+                _player.OnDash(false);
+            }
         }
         
-        void OnJump(InputAction.CallbackContext ctx)
+        /*void OnJump(InputAction.CallbackContext ctx)
         {
             if (ctx.performed)
             {
@@ -80,6 +96,6 @@ namespace _Project.Input
             {
                 _playerController.OnJump(false);
             }
-        }
+        }*/
     }
 }

@@ -13,7 +13,8 @@ namespace _Project.Code.Player
         // State Machine 
         public StateMachine StateMachine {get; private set;}
         public DefaultState DefaultState {get; private set;}
-        public JumpState JumpState {get; private set;}
+        public DashState DashState {get; private set;}
+        //public JumpState JumpState {get; private set;}
         
         #endregion
         
@@ -24,8 +25,8 @@ namespace _Project.Code.Player
         [field:SerializeField] public float deceleration { get; private set; } = 5f;
         [field:SerializeField] public float gravity { get; private set; }= 9.4f;
         [field:SerializeField] public float gravityMultiplier { get; private set; } = 2f;
-        [field:SerializeField] public float jumpForce { get; private set; }= 5f;
-        [field:SerializeField] public float groundCheckDelay { get; private set; }= 0.4f;
+        //[field:SerializeField] public float jumpForce { get; private set; }= 5f;
+        //[field:SerializeField] public float groundCheckDelay { get; private set; }= 0.4f;
         //[SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
         
         
@@ -43,16 +44,16 @@ namespace _Project.Code.Player
         public float VerticalVelocity {get; set;}
         
         //JUMP
-        public float _lastJumpTime {get; private set;}
-        public bool IsJumping {get; set;}
-        bool _hasJumped;
+        // public float _lastJumpTime {get; private set;}
+        // public bool IsJumping {get; set;}
+        // bool _hasJumped;
 
         //Look
         public float LookInputX {get; private set;}
         public Vector3 RotateVector {get; set;}
         
         #endregion
-        
+
         void Awake()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -63,7 +64,9 @@ namespace _Project.Code.Player
             
             //states
             DefaultState = new DefaultState(this);
-            JumpState = new JumpState(this);
+            DashState = new DashState(this);
+            
+            //JumpState = new JumpState(this);
             
             CharacterController = GetComponent<CharacterController>();
         }
@@ -72,10 +75,10 @@ namespace _Project.Code.Player
         {
             StateMachine.InitializeState(DefaultState);
         }
-        
+
         void Update()
         { 
-            StateMachine._currentState?.Update();
+            StateMachine._currentState?.FrameUpdate();
         }
         
         public void GetMoveInput(Vector2 moveInput)
@@ -88,7 +91,15 @@ namespace _Project.Code.Player
             LookInputX = lookInput.x;
         }
 
-        public void OnJump(bool isJumping)
+        public void OnDash(bool isDashing)
+        {
+            if (isDashing)
+            {
+                StateMachine.ChangeState(DashState);
+            }
+        }
+
+        /*public void OnJump(bool isJumping)
         {
             if (isJumping && CharacterController.isGrounded)
             {
@@ -96,6 +107,6 @@ namespace _Project.Code.Player
                 IsJumping = isJumping;
                 StateMachine.ChangeState(JumpState);
             }
-        } 
+        }*/ 
     }
 }
