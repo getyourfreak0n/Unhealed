@@ -24,6 +24,7 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
 
         public void Exit()
         {
+            _player.LastMoveVector = _player.MoveVector;
         }
         
         void PlayerMovement()
@@ -36,7 +37,7 @@ namespace _Project.Code.Gameplay.StateMachine.PlayerStates
             float rate = horizontalVector.sqrMagnitude > 0.01f ? _player.acceleration : _player.deceleration;
             _player.CurrentVector = Vector3.Lerp(_player.CurrentVector, horizontalVector, rate * Time.deltaTime);
             
-            _player.VerticalVelocity = -2f;
+            _player.VerticalVelocity = _player.gravity;
             
             _player.MoveVector = new Vector3(_player.CurrentVector.x,_player.VerticalVelocity, _player.CurrentVector.z);
             _player.CharacterController.Move(_player.MoveVector * Time.deltaTime);

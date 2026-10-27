@@ -1,3 +1,5 @@
+using System.Collections;
+using _Project.Code.Audio;
 using _Project.Code.Gameplay.StateMachine;
 using _Project.Code.Gameplay.StateMachine.PlayerStates;
 using UnityEngine;
@@ -14,7 +16,6 @@ namespace _Project.Code.Player
         public StateMachine StateMachine {get; private set;}
         public DefaultState DefaultState {get; private set;}
         public DashState DashState {get; private set;}
-        //public JumpState JumpState {get; private set;}
         
         #endregion
         
@@ -23,13 +24,10 @@ namespace _Project.Code.Player
         [field:SerializeField] public float maxSpeed { get; private set; } = 10f;
         [field:SerializeField] public float acceleration { get; private set; } = 5f; 
         [field:SerializeField] public float deceleration { get; private set; } = 5f;
-        [field:SerializeField] public float gravity { get; private set; }= 9.4f;
-        [field:SerializeField] public float gravityMultiplier { get; private set; } = 2f;
-        //[field:SerializeField] public float jumpForce { get; private set; }= 5f;
-        //[field:SerializeField] public float groundCheckDelay { get; private set; }= 0.4f;
-        //[SerializeField, Range(0f,0.5f)] float coyoteTime = 0.2f;
-        
-        
+        [field:SerializeField] public float gravity { get; private set; } = -9.4f;
+        [SerializeField] private float dashTime = 1f;
+        [SerializeField] private float dashSpeed = 5f;
+        [SerializeField] private AudioClip dashAudio;
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
         [field:SerializeField,Range(0f,0.05f)] public float mouseRigidity { get; private set; }= 0.03f;
         
@@ -42,6 +40,7 @@ namespace _Project.Code.Player
         public Vector3 CurrentVector {get; set;}
         public Vector3 MoveVector {get; set;}
         public float VerticalVelocity {get; set;}
+        public Vector3 LastMoveVector {get; set;}
         
         //JUMP
         // public float _lastJumpTime {get; private set;}
@@ -52,6 +51,8 @@ namespace _Project.Code.Player
         public float LookInputX {get; private set;}
         public Vector3 RotateVector {get; set;}
         
+        //Dash
+        public float StartTime {get; set;}
         #endregion
 
         void Awake()
@@ -61,12 +62,8 @@ namespace _Project.Code.Player
             
             //machine
             StateMachine = new StateMachine();
-            
-            //states
             DefaultState = new DefaultState(this);
             DashState = new DashState(this);
-            
-            //JumpState = new JumpState(this);
             
             CharacterController = GetComponent<CharacterController>();
         }
@@ -89,6 +86,20 @@ namespace _Project.Code.Player
         public void  GetLookInput(Vector2 lookInput)
         {
             LookInputX = lookInput.x;
+        }
+        
+        public IEnumerator Dash()
+        {
+            AudioManager.Instance.PlaySound(dashAudio);
+
+            while (Time.time < dashTime + StartTime)
+            {
+                CharacterController.Move( dashSpeed * Time.deltaTime * LastMoveVector);
+
+                yield return null;
+            } 
+            
+            StateMachine.ChangeState(DefaultState);
         }
 
         public void OnDash(bool isDashing)

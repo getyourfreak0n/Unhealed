@@ -245,16 +245,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9333ee840662e874cbfb2f08fec213fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  maxSpeed: 10
-  acceleration: 5
-  _deceleration: 9
-  jumpForce: 4.5
-  groundCheckDistance: 0.57
-  gravity: 9.4
-  gravityMultiplier: 1.1
-  coyoteTime: 0.2
-  mouseSensitivity: 0.18
-  mouseRigidity: 0.01
+  <maxSpeed>k__BackingField: 10
+  <acceleration>k__BackingField: 7
+  <deceleration>k__BackingField: 5
+  <gravity>k__BackingField: -9.4
+  dashTime: 0.3
+  dashSpeed: 3
+  <mouseSensitivity>k__BackingField: 0.082
+  <mouseRigidity>k__BackingField: 0.03
 --- !u!114 &4666037685186702911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
   crosshair: {fileID: 8658603829638838592}
-  fireRadius: 0.18
-  nextFireTime: 0.4
   _weaponsSO:
   - {fileID: 11400000, guid: db91f196a70edcf4485af42ef2de1021, type: 2}
   - {fileID: 11400000, guid: 3255f130c6ad53447991216689b88a01, type: 2}
@@ -512,7 +508,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 113.95882
+    FieldOfView: 114.97148
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -615,7 +611,7 @@ MonoBehaviour:
       Enabled: 1
       Input:
         InputAction: {fileID: -3006508660667532068, guid: e5bea7200468aa54187c5d6f030931aa, type: 3}
-        Gain: -24
+        Gain: -35
         CancelDeltaTime: 0
       InputValue: 0
       Driver:

@@ -1,4 +1,3 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace _Project.Code.ScriptableObjects
@@ -13,7 +12,7 @@ namespace _Project.Code.ScriptableObjects
         public float spreadAmount;
         public float fireDistance;
         public AudioClip clip;
-        public AnimatorController weaponAnimator;
+        public RuntimeAnimatorController weaponAnimator;
         public Vector3 spriteScale;
     }
 }

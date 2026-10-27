@@ -1,4 +1,5 @@
 using System.Collections;
+using _Project.Code.Audio;
 using _Project.Code.Enemy;
 using _Project.Code.ScriptableObjects;
 using Unity.Cinemachine;
@@ -82,6 +83,8 @@ namespace _Project.Code.Gameplay.Combat
             { 
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
+                       
+                    
                     float damage = _weaponsSO[_currentWeapon].damage;
                     
                     switch (hit.distance)
