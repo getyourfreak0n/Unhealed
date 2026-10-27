@@ -1235,6 +1235,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: dashAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ab18aaaf8731d7479df8102b3303576, type: 3}
+    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: groundCheckDelay
       value: 0.4
       objectReference: {fileID: 0}

@@ -49,6 +49,7 @@ namespace _Project.Code.Gameplay.Combat
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 _currentWeapon = 0;
+                _lastFireTime = 0f;
                 _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
                 _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
@@ -60,6 +61,7 @@ namespace _Project.Code.Gameplay.Combat
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 _currentWeapon = 1;
+                _lastFireTime = 0f;
                 _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
                 _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
                 _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
@@ -83,8 +85,6 @@ namespace _Project.Code.Gameplay.Combat
             { 
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
-                       
-                    
                     float damage = _weaponsSO[_currentWeapon].damage;
                     
                     switch (hit.distance)
@@ -107,23 +107,30 @@ namespace _Project.Code.Gameplay.Combat
 
         IEnumerator Recoil()
         {
-            _targetTilt = _tiltAxis.TiltAxis.ClampValue(_tiltAxis.TiltAxis.Value - _recoilAmount);
-                                                            
-            while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _targetTilt) > 0.01f)
-            { 
-                _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
-                    (_tiltAxis.TiltAxis.Value, _targetTilt , _recoilSpeed);
-                
+            float remainingRecoil = _recoilAmount;
+
+            while (remainingRecoil > 0.01f)
+            {
+                float step = Mathf.Min(_recoilSpeed, remainingRecoil);
+                remainingRecoil -= step;
+
+                _tiltAxis.TiltAxis.Value = _tiltAxis.TiltAxis.ClampValue
+                    (_tiltAxis.TiltAxis.Value - step);
+
                 yield return null;
             }
-            
-            _recoveryTilt = _tiltAxis.TiltAxis.ClampValue(_tiltAxis.TiltAxis.Value + (_recoilAmount * 0.3f));
 
-            while (Mathf.Abs(_tiltAxis.TiltAxis.Value - _recoveryTilt ) > 0.01f)
+            float remainingRecovery = _recoilAmount * 0.3f;
+
+            while (remainingRecovery > 0.01f)
             {
-                    _tiltAxis.TiltAxis.Value = Mathf.MoveTowards
-                        (_tiltAxis.TiltAxis.Value, _recoveryTilt, (_recoilSpeed * 0.3f));
-                    yield return null;
+                float step = Mathf.Min(_recoilSpeed * 0.3f, remainingRecovery);
+                remainingRecovery -= step;
+
+                _tiltAxis.TiltAxis.Value = _tiltAxis.TiltAxis.ClampValue
+                    (_tiltAxis.TiltAxis.Value + step);
+
+                yield return null;
             }
         }
 
