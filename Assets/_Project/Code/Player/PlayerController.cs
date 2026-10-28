@@ -3,6 +3,7 @@ using _Project.Code.Audio;
 using _Project.Code.Gameplay.StateMachine;
 using _Project.Code.Gameplay.StateMachine.PlayerStates;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Project.Code.Player
 {
@@ -54,6 +55,8 @@ namespace _Project.Code.Player
         //Dash
         public float StartTime {get; set;}
         #endregion
+
+        int _health = 5;
 
         void Awake()
         {
@@ -107,6 +110,17 @@ namespace _Project.Code.Player
             if (isDashing)
             {
                 StateMachine.ChangeState(DashState);
+            }
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _health -= damage;
+
+            if (_health <= 0)
+            {
+                Destroy(gameObject);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
 
