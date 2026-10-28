@@ -16,6 +16,7 @@ namespace _Project.Code.Audio
       public void PlaySound(AudioClip clip)
       {
          _audioSource.clip = clip;
+         _audioSource.pitch = Random.Range(0.85f, 1.15f);
          _audioSource.Play();
       }
    }

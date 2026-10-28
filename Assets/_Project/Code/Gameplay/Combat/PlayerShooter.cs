@@ -100,7 +100,11 @@ namespace _Project.Code.Gameplay.Combat
                     }
                    
                     enemy.TakeDamage(damage);
-                    enemy.HitVFX(hit.point, hit.normal);
+                    enemy.CameraImpulse();
+                }
+                if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
+                {
+                    damageable.HitVFX(hit.point, hit.normal);
                 }
             }
         }
