@@ -1,4 +1,5 @@
 using _Project.Code.Player;
+using _Project.Code.Utilities;
 using UnityEngine;
 
 namespace _Project.Code.Enemy
@@ -24,7 +25,7 @@ namespace _Project.Code.Enemy
             if (other.gameObject.CompareTag("Player"))
             {
                 Destroy(gameObject);
-                other.gameObject.GetComponent<PlayerController>().TakeDamage(1);
+                ((PlayerController)DictionaryManager.Instance.compD["Player"]).TakeDamage(1);
             }
             else
             {

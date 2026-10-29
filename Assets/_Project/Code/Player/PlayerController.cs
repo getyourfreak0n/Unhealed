@@ -76,6 +76,8 @@ namespace _Project.Code.Player
 
         void Start()
         {
+            
+            
             LastDashTime = Time.time;
             StateMachine.InitializeState(DefaultState);
         }
