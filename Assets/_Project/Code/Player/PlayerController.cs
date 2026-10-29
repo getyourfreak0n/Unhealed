@@ -31,6 +31,7 @@ namespace _Project.Code.Player
         [SerializeField] private AudioClip dashAudio;
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
         [field:SerializeField,Range(0f,0.05f)] public float mouseRigidity { get; private set; }= 0.03f;
+        [SerializeField] private float dashCooldown = 0.5f;
         
         #endregion
 
@@ -54,6 +55,8 @@ namespace _Project.Code.Player
         
         //Dash
         public float StartTime {get; set;}
+        float LastDashTime;   
+        
         #endregion
 
         int _health = 5;
@@ -73,6 +76,7 @@ namespace _Project.Code.Player
 
         void Start()
         {
+            LastDashTime = Time.time;
             StateMachine.InitializeState(DefaultState);
         }
 
@@ -109,7 +113,11 @@ namespace _Project.Code.Player
         {
             if (isDashing)
             {
-                StateMachine.ChangeState(DashState);
+                if (Time.time > LastDashTime + dashCooldown)
+                {
+                    LastDashTime = Time.time;
+                    StateMachine.ChangeState(DashState);
+                } 
             }
         }
 

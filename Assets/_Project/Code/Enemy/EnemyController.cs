@@ -12,14 +12,13 @@ namespace _Project.Code.Enemy
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] GameObject player;
 
-        float _health = 100f;
-        bool _isHiding;
         NavMeshAgent _agent;
         CinemachineImpulseSource _impulse;
         MeshRenderer _renderer;
         Coroutine _flickerCoroutine;
         Coroutine _shootCoroutine;
-        
+        float _health = 100f;
+
         void Awake()
         {
             _renderer = GetComponent<MeshRenderer>();
@@ -35,8 +34,6 @@ namespace _Project.Code.Enemy
 
         void ChasePlayer()
         {
-            if (_isHiding) return;
-            
             _agent.SetDestination(player.transform.position);
         }
 

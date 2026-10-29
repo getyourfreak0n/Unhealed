@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9222484107931301812}
   - component: {fileID: 4090552064429801617}
   - component: {fileID: 1599576821978824768}
-  - component: {fileID: 1467119934745156380}
-  - component: {fileID: 6692580392283663468}
   - component: {fileID: 7869772650760920000}
+  - component: {fileID: 6692580392283663468}
+  - component: {fileID: 1467119934745156380}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -117,20 +117,28 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &1467119934745156380
-MonoBehaviour:
+--- !u!195 &7869772650760920000
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564095984147126855}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a71823c1e3730c8469a9b754aac0698d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
-  vfxPrefab: {fileID: 7551903720376777594, guid: 831e528eeefddb245be20632157c61d3, type: 3}
-  player: {fileID: 0}
+  m_AgentTypeID: 0
+  m_Radius: 0.5000001
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 10
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &6692580392283663468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,25 +192,18 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: 0, z: -0.2}
---- !u!195 &7869772650760920000
-NavMeshAgent:
+--- !u!114 &1467119934745156380
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564095984147126855}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5000001
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 10
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71823c1e3730c8469a9b754aac0698d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  vfxPrefab: {fileID: 7551903720376777594, guid: 831e528eeefddb245be20632157c61d3, type: 3}
+  bulletPrefab: {fileID: 0}
+  player: {fileID: 0}
