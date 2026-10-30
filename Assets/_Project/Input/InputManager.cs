@@ -25,8 +25,6 @@ namespace _Project.Input
             _actions.Enable();
             _actions.Player.Move.performed += OnMovePerformed;
             _actions.Player.Move.canceled += OnMoveCanceled;
-            // _actions.Player.Jump.performed += OnJump;
-            // _actions.Player.Jump.canceled += OnJump;
             _actions.Player.Dash.performed += OnDash;
             _actions.Player.Dash.canceled += OnDash;
             _actions.Player.Look.performed += OnLookPerformed;
@@ -37,8 +35,6 @@ namespace _Project.Input
         {
             _actions.Player.Move.performed -= OnMovePerformed;
             _actions.Player.Move.canceled -= OnMoveCanceled;
-            //_actions.Player.Jump.performed -= OnJump;
-            //_actions.Player.Jump.canceled -= OnJump;
             _actions.Player.Dash.performed -= OnDash;
             _actions.Player.Dash.canceled -= OnDash;
             _actions.Player.Look.performed -= OnLookPerformed;
@@ -74,28 +70,18 @@ namespace _Project.Input
 
         void OnDash(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed)
+            if (_player.MoveInput.sqrMagnitude > 0.1f)
             {
-                _player.OnDash(true);            
-            }
+                if (ctx.performed)
+                {
+                    _player.OnDash(true);            
+                }
 
-            if (ctx.canceled)
-            {
-                _player.OnDash(false);
+                if (ctx.canceled)
+                {
+                    _player.OnDash(false);
+                }   
             }
         }
-        
-        /*void OnJump(InputAction.CallbackContext ctx)
-        {
-            if (ctx.performed)
-            {
-                _playerController.OnJump(true);
-            }
-
-            if (ctx.canceled)
-            {
-                _playerController.OnJump(false);
-            }
-        }*/
     }
 }

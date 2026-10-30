@@ -24,13 +24,13 @@ namespace _Project.Code.Enemy
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                Destroy(gameObject);
-                ((PlayerController)DictionaryManager.Instance.compD["Player"]).TakeDamage(1);
+                DictionaryManager.Instance.compD.TryGetValue("Player" , out var playerC);
+                PlayerController player =  playerC as PlayerController;
+
+                if (player != null) player.TakeDamage(1);
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            
+            Destroy(gameObject);
         }
     }
 }

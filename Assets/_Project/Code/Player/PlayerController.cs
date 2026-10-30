@@ -76,8 +76,6 @@ namespace _Project.Code.Player
 
         void Start()
         {
-            
-            
             LastDashTime = Time.time;
             StateMachine.InitializeState(DefaultState);
         }
@@ -130,8 +128,12 @@ namespace _Project.Code.Player
             if (_health <= 0)
             {
                 Destroy(gameObject);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
+        }
+
+        void OnDestroy()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         /*public void OnJump(bool isJumping)
