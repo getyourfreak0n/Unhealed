@@ -8,5 +8,7 @@ namespace _Project.Code.Enemy
          void TakeDamage(float damage);
          void CameraImpulse();
          void FlickerEffect();
+         void DamageSFX();
+         
     }
 }

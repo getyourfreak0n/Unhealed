@@ -1,5 +1,4 @@
 using _Project.Code.Player;
-using _Project.Code.Utilities;
 using UnityEngine;
 
 namespace _Project.Code.Enemy
@@ -22,14 +21,11 @@ namespace _Project.Code.Enemy
 
         void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.TryGetComponent(out PlayerController player))
             {
-                DictionaryManager.Instance.compD.TryGetValue("Player" , out var playerC);
-                PlayerController player =  playerC as PlayerController;
-
-                if (player != null) player.TakeDamage(1);
+                player.TakeDamage(1);
             }
-            
+
             Destroy(gameObject);
         }
     }

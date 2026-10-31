@@ -1,4 +1,5 @@
 using System.Collections;
+using _Project.Code.Audio;
 using _Project.Code.Gameplay.Combat;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace _Project.Code.Enemy
     public class EnemyController : MonoBehaviour, IEnemy, IDamageable
     {
         [SerializeField] private GameObject vfxPrefab;
+        [SerializeField] private AudioClip damageClip;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] GameObject player;
 
@@ -28,6 +30,8 @@ namespace _Project.Code.Enemy
         
         void Update()
         {
+            if (player == null) return;
+            
             ChasePlayer();
             ShootAtPlayer();
         }
@@ -41,7 +45,8 @@ namespace _Project.Code.Enemy
         {
             _health -= damage;
             FlickerEffect();
-            Debug.Log($"Ouch! Fuck off! Took {damage} damage!");
+            DamageSFX();
+            Debug.Log($"Ouch! Took {damage} damage!");
 
             if (_health <= 0f)
             {
@@ -62,10 +67,15 @@ namespace _Project.Code.Enemy
             }
         }
 
+        public void DamageSFX()
+        {
+            AudioManager.Instance.PlaySound(damageClip, 0.5f, 0.3f, 0.5f);
+        }
+
         public void HitVFX(Vector3 hitPoint, Vector3 hitDirection)
         {
             GameObject instantiate =Instantiate(vfxPrefab, hitPoint, Quaternion.LookRotation(hitDirection));
-            Destroy(instantiate, 1f);
+            Destroy(instantiate, 1.5f);
         }
 
         void ShootAtPlayer()

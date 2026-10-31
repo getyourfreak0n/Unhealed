@@ -13,11 +13,11 @@ namespace _Project.Code.Audio
          _audioSource = GetComponent<AudioSource>();
       }
 
-      public void PlaySound(AudioClip clip)
+      public void PlaySound(AudioClip clip,  float volume, float lowPitch, float highPitch)
       {
          _audioSource.clip = clip;
-         _audioSource.pitch = Random.Range(0.85f, 1.15f);
-         _audioSource.Play();
+         _audioSource.pitch = Random.Range(lowPitch, highPitch);
+         _audioSource.PlayOneShot(_audioSource.clip, volume);
       }
    }
 }

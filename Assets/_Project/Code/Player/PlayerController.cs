@@ -32,7 +32,7 @@ namespace _Project.Code.Player
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
         [field:SerializeField,Range(0f,0.05f)] public float mouseRigidity { get; private set; }= 0.03f;
         [SerializeField] private float dashCooldown = 0.5f;
-        
+        [SerializeField] AudioClip tookDamage;
         #endregion
 
         #region Properties
@@ -97,7 +97,7 @@ namespace _Project.Code.Player
         
         public IEnumerator Dash()
         {
-            AudioManager.Instance.PlaySound(dashAudio);
+            AudioManager.Instance.PlaySound(dashAudio, 1.1f, 0.55f, 0.8f);
 
             while (Time.time < dashTime + StartTime)
             {
@@ -124,16 +124,12 @@ namespace _Project.Code.Player
         public void TakeDamage(int damage)
         {
             _health -= damage;
-
+            AudioManager.Instance.PlaySound(tookDamage, 0.9f, 0.95f, 1.05f);
+            
             if (_health <= 0)
             {
-                Destroy(gameObject);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-        }
-
-        void OnDestroy()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         /*public void OnJump(bool isJumping)

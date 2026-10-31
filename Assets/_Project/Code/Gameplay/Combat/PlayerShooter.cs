@@ -14,6 +14,7 @@ namespace _Project.Code.Gameplay.Combat
         [SerializeField] Transform crosshair;
         [SerializeField] WeaponsSO[] _weaponsSO;
         [SerializeField] private SpriteRenderer _gunRenderer;
+        [SerializeField] private LayerMask layersToHit; 
         
         //private fields
         LayerMask _enemyLayer;
@@ -75,10 +76,16 @@ namespace _Project.Code.Gameplay.Combat
         {
             if (RateOfFire()) return;
 
+            DamageHitscan();
+            EffectsHitscan();
             StartCoroutine(Recoil());
-            _animator.SetTrigger("isShooting");
-            AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip);
             
+            _animator.SetTrigger("isShooting");
+            AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip, 0.6f, 0.85f, 1.15f );
+        }
+        
+        void DamageHitscan()
+        {
             Ray ray = new Ray(crosshair.position, crosshair.forward);
             
             if (Physics.SphereCast(ray, _spreadAmount, out RaycastHit hit, _fireDistance, _enemyLayer))
@@ -102,12 +109,22 @@ namespace _Project.Code.Gameplay.Combat
                     enemy.TakeDamage(damage);
                     enemy.CameraImpulse();
                 }
+            }
+        }
+
+        void EffectsHitscan()
+        {
+            Ray ray = new Ray(crosshair.position, crosshair.forward);
+
+            if (Physics.Raycast(ray,  out var hit, 100f, layersToHit))
+            {
                 if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
                 {
                     damageable.HitVFX(hit.point, hit.normal);
-                }
+                }   
             }
         }
+        
 
         IEnumerator Recoil()
         {

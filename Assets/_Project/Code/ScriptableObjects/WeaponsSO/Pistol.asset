@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e904e0a944c7ac4095025da6164a200, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.ScriptableObjects.WeaponsSO
-  damage: 10
+  damage: 15
   nextFireTime: 0.6
   recoilAmount: 10
   recoilSpeed: 0.5
