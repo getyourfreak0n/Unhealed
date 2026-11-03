@@ -1,6 +1,8 @@
 using System.Collections;
 using _Project.Code.Audio;
 using _Project.Code.Enemy;
+using _Project.Code.Gameplay.Combat.WeaponStates;
+using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.ScriptableObjects;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -31,13 +33,30 @@ namespace _Project.Code.Gameplay.Combat
         float _spreadAmount;
         float _fireDistance;
         
+        //states
+        StateMachine _stateMachine;
+        PistolState _pistolState;
+        ShotgunState _shotgunState;
+        
+        IState _defaultState;
+        
         void Awake()
         {
+            _stateMachine = new StateMachine();
+            _pistolState = new PistolState();
+            _shotgunState = new ShotgunState();
+            _defaultState = _pistolState;
+            
             _enemyLayer = LayerMask.GetMask("Enemy");
             _animator = GetComponentInChildren<Animator>();
             _tiltAxis = GetComponentInChildren<CinemachinePanTilt>();
-        
+            
             WeaponInit();
+        }
+
+        void Start()
+        {
+            _stateMachine.InitializeState(_defaultState);
         }
 
         void Update()

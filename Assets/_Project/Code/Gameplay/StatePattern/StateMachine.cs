@@ -1,4 +1,4 @@
-namespace _Project.Code.Gameplay.StateMachine
+namespace _Project.Code.Gameplay.StatePattern
 {
     public class StateMachine
     {

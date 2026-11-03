@@ -1,7 +1,7 @@
 using System.Collections;
 using _Project.Code.Audio;
-using _Project.Code.Gameplay.StateMachine;
-using _Project.Code.Gameplay.StateMachine.PlayerStates;
+using _Project.Code.Gameplay.StatePattern;
+using _Project.Code.Gameplay.StatePattern.PlayerStates;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

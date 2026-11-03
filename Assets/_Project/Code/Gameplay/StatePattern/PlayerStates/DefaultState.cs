@@ -1,7 +1,7 @@
 using _Project.Code.Player;
 using UnityEngine;
 
-namespace _Project.Code.Gameplay.StateMachine.PlayerStates
+namespace _Project.Code.Gameplay.StatePattern.PlayerStates
 {
     public class DefaultState : IState
     {

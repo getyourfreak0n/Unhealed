@@ -1,4 +1,4 @@
-using _Project.Code.Gameplay.StateMachine;
+using _Project.Code.Gameplay.StatePattern;
 
 namespace _Project.Code.Gameplay.Combat.WeaponStates
 {
