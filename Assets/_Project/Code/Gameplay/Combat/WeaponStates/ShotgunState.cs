@@ -39,7 +39,6 @@ namespace _Project.Code.Gameplay.Combat.WeaponStates
             Ray ray = new Ray(_player.crosshair.position, _player.crosshair.forward);
             int numberOfHits = Physics.SphereCastNonAlloc(ray, _player.SpreadAmount, hits, _player.FireDistance, _player.EnemyLayer);
 
-            Debug.Log("her heart");
             for (int i = 0; i < numberOfHits; i++)
             {
                 if (hits[i].collider.TryGetComponent(out IEnemy enemy))

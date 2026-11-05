@@ -81,12 +81,10 @@ namespace _Project.Code.Gameplay.Combat
             if (_stateMachine._currentState is PistolState pistol)
             {
                 pistol.DamageHitscan();
-                Debug.Log("pistol sikiyo lan!");
             }
             else if (_stateMachine._currentState is ShotgunState shotgun)
             {
                 shotgun.DamageHitscan();
-                Debug.Log("shotgun sikiyo lan!");
             }
             
             EffectsHitscan();
