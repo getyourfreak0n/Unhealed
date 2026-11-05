@@ -949,6 +949,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5953230693943421045, guid: 5f251ec41bcb00347886b70c9dc58aff, type: 3}
   m_PrefabInstance: {fileID: 2700188816411498680}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &623745385 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8658603829638838592, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+  m_PrefabInstance: {fileID: 7505674839042051934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &630767603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3008,7 +3013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2061467385}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3207,6 +3212,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4666037685186702911, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: layersToHit.m_Bits
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4666037685186702911, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
+      propertyPath: <crosshair>k__BackingField
+      value: 
+      objectReference: {fileID: 623745385}
     - target: {fileID: 8035355333228439819, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 137

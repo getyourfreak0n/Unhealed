@@ -268,11 +268,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f7346de6c5e5b4a8f99208a0a48996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
-  crosshair: {fileID: 8658603829638838592}
-  _weaponsSO:
+  <crosshair>k__BackingField: {fileID: 1979755309246056677}
+  <_weaponsSO>k__BackingField:
   - {fileID: 11400000, guid: db91f196a70edcf4485af42ef2de1021, type: 2}
   - {fileID: 11400000, guid: 3255f130c6ad53447991216689b88a01, type: 2}
-  _gunRenderer: {fileID: 4059059411860227490}
+  <gunRenderer>k__BackingField: {fileID: 4059059411860227490}
   layersToHit:
     serializedVersion: 2
     m_Bits: 72

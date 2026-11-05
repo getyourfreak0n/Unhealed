@@ -1,6 +1,5 @@
 using System.Collections;
 using _Project.Code.Audio;
-using _Project.Code.Enemy;
 using _Project.Code.Gameplay.Combat.WeaponStates;
 using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.ScriptableObjects;
@@ -13,45 +12,42 @@ namespace _Project.Code.Gameplay.Combat
     public class PlayerShooter : MonoBehaviour
     {
         //serialized fields
-        [SerializeField] Transform crosshair;
-        [SerializeField] WeaponsSO[] _weaponsSO;
-        [SerializeField] private SpriteRenderer _gunRenderer;
+        [field:SerializeField] public Transform crosshair {get; private set;}
+        [field:SerializeField] public WeaponsSO[] _weaponsSO { get; set; }
+        [field:SerializeField] public SpriteRenderer gunRenderer { get; set;}
         [SerializeField] private LayerMask layersToHit; 
         
-        //private fields
-        LayerMask _enemyLayer;
-        Animator _animator;
+        //private fields                                                      2
+        public LayerMask EnemyLayer { get; private set; }
+        public Animator Animator { get; private set; }
         CinemachinePanTilt _tiltAxis;
-        float _lastFireTime;
-        
+
         //Weapon attributes. Comes from current WeaponSO
-        float _recoilAmount;
-        float _recoilSpeed;
-        int _currentWeapon;
-        float _targetTilt;
-        float _recoveryTilt;
-        float _spreadAmount;
-        float _fireDistance;
+        public float LastFireTime { get; set;}
+        public float RecoilAmount {get; set;}
+        public float RecoilSpeed {get; set;}
+        public int CurrentWeapon  {get; set;}
+        public float TargetTilt {get; set;}
+        public float RecoveryTilt {get; set;}
+        public float SpreadAmount  {get; set;}
+        public float FireDistance {get; set;}
         
         //states
         StateMachine _stateMachine;
         PistolState _pistolState;
         ShotgunState _shotgunState;
-        
         IState _defaultState;
         
         void Awake()
         {
             _stateMachine = new StateMachine();
-            _pistolState = new PistolState();
-            _shotgunState = new ShotgunState();
+            _pistolState = new PistolState(this);
+            _shotgunState = new ShotgunState(this);
             _defaultState = _pistolState;
             
-            _enemyLayer = LayerMask.GetMask("Enemy");
-            _animator = GetComponentInChildren<Animator>();
+            EnemyLayer = LayerMask.GetMask("Enemy");
+            Animator = GetComponentInChildren<Animator>();
             _tiltAxis = GetComponentInChildren<CinemachinePanTilt>();
-            
-            WeaponInit();
         }
 
         void Start()
@@ -61,33 +57,20 @@ namespace _Project.Code.Gameplay.Combat
 
         void Update()
         {
-            WeaponSwitcher();    
+            WeaponSwitcher();
+            _stateMachine._currentState.FrameUpdate();
         }
 
         void WeaponSwitcher()
         {
             if (Keyboard.current.digit1Key.wasPressedThisFrame)
             {
-                _currentWeapon = 0;
-                _lastFireTime = 0f;
-                _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
-                _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
-                _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
-                _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
-                _spreadAmount = _weaponsSO[_currentWeapon].spreadAmount;
-                _fireDistance = _weaponsSO[_currentWeapon].fireDistance;   
+                _stateMachine.ChangeState(_pistolState);
             }
 
             if (Keyboard.current.digit2Key.wasPressedThisFrame)
             {
-                _currentWeapon = 1;
-                _lastFireTime = 0f;
-                _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
-                _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
-                _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
-                _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
-                _spreadAmount = _weaponsSO[_currentWeapon].spreadAmount;
-                _fireDistance = _weaponsSO[_currentWeapon].fireDistance;   
+                _stateMachine.ChangeState(_shotgunState);
             }
         }
         
@@ -95,41 +78,24 @@ namespace _Project.Code.Gameplay.Combat
         {
             if (RateOfFire()) return;
 
-            DamageHitscan();
+            if (_stateMachine._currentState is PistolState pistol)
+            {
+                pistol.DamageHitscan();
+                Debug.Log("pistol sikiyo lan!");
+            }
+            else if (_stateMachine._currentState is ShotgunState shotgun)
+            {
+                shotgun.DamageHitscan();
+                Debug.Log("shotgun sikiyo lan!");
+            }
+            
             EffectsHitscan();
             StartCoroutine(Recoil());
             
-            _animator.SetTrigger("isShooting");
-            AudioManager.Instance.PlaySound(_weaponsSO[_currentWeapon].clip, 0.6f, 0.85f, 1.15f );
+            Animator.SetTrigger("isShooting");
+            AudioManager.Instance.PlaySound(_weaponsSO[CurrentWeapon].clip, 0.6f, 0.85f, 1.15f );
         }
         
-        void DamageHitscan()
-        {
-            Ray ray = new Ray(crosshair.position, crosshair.forward);
-            
-            if (Physics.SphereCast(ray, _spreadAmount, out RaycastHit hit, _fireDistance, _enemyLayer))
-            { 
-                if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
-                {
-                    float damage = _weaponsSO[_currentWeapon].damage;
-                    
-                    switch (hit.distance)
-                    {
-                        case <= 5f:
-                            break;  
-                        case <= 12f:
-                            damage *= 0.8f;
-                            break;
-                        default:
-                            damage *= 0.5f;
-                            break;
-                    }
-                   
-                    enemy.TakeDamage(damage);
-                    enemy.CameraImpulse();
-                }
-            }
-        }
 
         void EffectsHitscan()
         {
@@ -144,14 +110,13 @@ namespace _Project.Code.Gameplay.Combat
             }
         }
         
-
         IEnumerator Recoil()
         {
-            float remainingRecoil = _recoilAmount;
+            float remainingRecoil = RecoilAmount;
 
             while (remainingRecoil > 0.01f)
             {
-                float step = Mathf.Min(_recoilSpeed, remainingRecoil);
+                float step = Mathf.Min(RecoilSpeed, remainingRecoil);
                 remainingRecoil -= step;
 
                 _tiltAxis.TiltAxis.Value = _tiltAxis.TiltAxis.ClampValue
@@ -160,11 +125,11 @@ namespace _Project.Code.Gameplay.Combat
                 yield return null;
             }
 
-            float remainingRecovery = _recoilAmount * 0.3f;
+            float remainingRecovery = RecoilAmount * 0.3f;
 
             while (remainingRecovery > 0.01f)
             {
-                float step = Mathf.Min(_recoilSpeed * 0.3f, remainingRecovery);
+                float step = Mathf.Min(RecoilSpeed * 0.3f, remainingRecovery);
                 remainingRecovery -= step;
 
                 _tiltAxis.TiltAxis.Value = _tiltAxis.TiltAxis.ClampValue
@@ -176,24 +141,13 @@ namespace _Project.Code.Gameplay.Combat
 
         bool RateOfFire()
         {
-            if (Time.time - _lastFireTime <= _weaponsSO[_currentWeapon].nextFireTime)
+            if (Time.time - LastFireTime <= _weaponsSO[CurrentWeapon].nextFireTime)
             {
                 return true;
             }
 
-            _lastFireTime = Time.time;
+            LastFireTime = Time.time;
             return false;
-        }
-
-        void WeaponInit()
-        {
-            _currentWeapon = 0;
-            _gunRenderer.transform.localScale = _weaponsSO[_currentWeapon].spriteScale;
-            _animator.runtimeAnimatorController = _weaponsSO[_currentWeapon].weaponAnimator;
-            _recoilAmount = _weaponsSO[_currentWeapon].recoilAmount;
-            _recoilSpeed =  _weaponsSO[_currentWeapon].recoilSpeed;
-            _spreadAmount = _weaponsSO[_currentWeapon].spreadAmount;
-            _fireDistance = _weaponsSO[_currentWeapon].fireDistance;   
         }
     }
 }
