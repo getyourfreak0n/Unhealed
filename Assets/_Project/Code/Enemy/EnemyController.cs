@@ -104,10 +104,12 @@ namespace _Project.Code.Enemy
         IEnumerator Shoot()
         {
             WaitForSeconds wait = new WaitForSeconds(Random.Range(1f, 3f));
-           
+    
+            Vector3 playerPos = player.transform.position;
+            float randomX = playerPos.x + Random.Range(-1f, 1f);
             Vector3 spawnPosition = transform.position + (transform.forward * 1.5f);
-            
-            Vector3 directionToPlayer = (player.transform.position - spawnPosition).normalized;
+            Vector3 targetPosition = new Vector3(randomX, playerPos.y, playerPos.z);
+            Vector3 directionToPlayer = (targetPosition - spawnPosition).normalized;
             Quaternion rotationToPlayer = Quaternion.LookRotation(directionToPlayer);
     
             // Spawn the bullet facing the player

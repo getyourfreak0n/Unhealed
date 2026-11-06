@@ -16,7 +16,7 @@ namespace _Project.Code.Enemy
         {
             Destroy(gameObject, 5f);
             
-            _rb.AddForce(transform.forward * Random.Range(1f,5.5f), ForceMode.Impulse);
+            _rb.AddForce(transform.forward * Random.Range(1f,2.5f), ForceMode.Impulse);
         }
 
         void OnCollisionEnter(Collision other)
