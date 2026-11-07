@@ -20,6 +20,7 @@ namespace _Project.Code.Gameplay.Combat.WeaponStates
             _player.CurrentWeapon = 1;
             _player.LastFireTime = 0f;
             _player.gunRenderer.transform.localScale = _player._weaponsSO[_player.CurrentWeapon].spriteScale;
+            _player.gunRenderer.gameObject.transform.localPosition = _player._weaponsSO[_player.CurrentWeapon].spriteTransform;
             _player.Animator.runtimeAnimatorController = _player._weaponsSO[_player.CurrentWeapon].weaponAnimator;
             _player.RecoilAmount = _player._weaponsSO[_player.CurrentWeapon].recoilAmount;
             _player.RecoilSpeed =  _player._weaponsSO[_player.CurrentWeapon].recoilSpeed;

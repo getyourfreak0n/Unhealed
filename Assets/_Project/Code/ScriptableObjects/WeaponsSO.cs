@@ -14,5 +14,6 @@ namespace _Project.Code.ScriptableObjects
         public AudioClip clip;
         public RuntimeAnimatorController weaponAnimator;
         public Vector3 spriteScale;
+        public Vector3 spriteTransform;
     }
 }
