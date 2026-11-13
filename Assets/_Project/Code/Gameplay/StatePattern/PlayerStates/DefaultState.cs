@@ -24,7 +24,8 @@ namespace _Project.Code.Gameplay.StatePattern.PlayerStates
 
         public void Exit()
         {
-            _player.LastMoveVector = _player.MoveVector;
+            Vector3 dir = new Vector3(_player.CurrentVector.x, 0f, _player.CurrentVector.z).normalized;
+            _player.LastMoveVector = dir * _player.maxSpeed;
         }
         
         void PlayerMovement()

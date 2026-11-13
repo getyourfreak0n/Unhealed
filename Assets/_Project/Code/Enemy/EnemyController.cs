@@ -1,3 +1,4 @@
+
 using System.Collections;
 using _Project.Code.Audio;
 using _Project.Code.Gameplay.Combat;
@@ -12,6 +13,7 @@ namespace _Project.Code.Enemy
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private AudioClip damageClip;
         [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private Transform firePoint;
         [SerializeField] GameObject player;
 
         NavMeshAgent _agent;
@@ -26,6 +28,7 @@ namespace _Project.Code.Enemy
             _renderer = GetComponent<MeshRenderer>();
             _agent = GetComponent<NavMeshAgent>();
             _impulse = GetComponent<CinemachineImpulseSource>();
+            _agent.updateRotation = false;
         }
         
         void Update()
@@ -33,6 +36,7 @@ namespace _Project.Code.Enemy
             if (player == null) return;
             
             ChasePlayer();
+            EnemyRotator();
             ShootAtPlayer();
         }
 
@@ -52,6 +56,7 @@ namespace _Project.Code.Enemy
             {
                 Destroy(gameObject);
             }
+            
         }
 
         public void CameraImpulse()
@@ -88,6 +93,8 @@ namespace _Project.Code.Enemy
 
         IEnumerator Flicker()
         {
+            if (_renderer == null) yield break;
+            
             WaitForSeconds wait = new WaitForSeconds(0.2f);
             
             _renderer.material.color = Color.white;
@@ -97,6 +104,7 @@ namespace _Project.Code.Enemy
             _renderer.material.color = Color.white;
             yield return wait;
             _renderer.material.color = Color.red;
+            yield return wait;
             
             _flickerCoroutine = null;
         }
@@ -104,19 +112,21 @@ namespace _Project.Code.Enemy
         IEnumerator Shoot()
         {
             WaitForSeconds wait = new WaitForSeconds(Random.Range(1f, 3f));
-    
-            Vector3 playerPos = player.transform.position;
-            float randomX = playerPos.x + Random.Range(-1f, 1f);
-            Vector3 spawnPosition = transform.position + (transform.forward * 1.5f);
-            Vector3 targetPosition = new Vector3(randomX, playerPos.y, playerPos.z);
-            Vector3 directionToPlayer = (targetPosition - spawnPosition).normalized;
-            Quaternion rotationToPlayer = Quaternion.LookRotation(directionToPlayer);
-    
-            // Spawn the bullet facing the player
-            Instantiate(bulletPrefab, spawnPosition, rotationToPlayer);
+            
+            Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-1f, 1f), 0f, 0f);
+            Instantiate(bulletPrefab, firePoint.position, spawnRotation);
+            
             yield return wait;
             
             _shootCoroutine  = null;
         }
+
+        void EnemyRotator()
+        {
+            Vector3 direction = player.transform.position - transform.position;
+            direction.y = 0;
+            transform.rotation = Quaternion.LookRotation(direction);    
+        }
+        
     }
 }

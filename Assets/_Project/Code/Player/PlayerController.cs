@@ -27,7 +27,6 @@ namespace _Project.Code.Player
         [field:SerializeField] public float deceleration { get; private set; } = 5f;
         [field:SerializeField] public float gravity { get; private set; } = -9.4f;
         [SerializeField] private float dashTime = 1f;
-        [SerializeField] private float dashSpeed = 5f;
         [SerializeField] private AudioClip dashAudio;
         [field:SerializeField,Range(0f,1f)] public float mouseSensitivity { get; private set; }= 0.2f;
         [field:SerializeField,Range(0f,0.05f)] public float mouseRigidity { get; private set; }= 0.03f;
@@ -43,11 +42,6 @@ namespace _Project.Code.Player
         public Vector3 MoveVector {get; set;}
         public float VerticalVelocity {get; set;}
         public Vector3 LastMoveVector {get; set;}
-        
-        //JUMP
-        // public float _lastJumpTime {get; private set;}
-        // public bool IsJumping {get; set;}
-        // bool _hasJumped;
 
         //Look
         public float LookInputX {get; private set;}
@@ -101,7 +95,7 @@ namespace _Project.Code.Player
 
             while (Time.time < dashTime + StartTime)
             {
-                CharacterController.Move( dashSpeed * Time.deltaTime * LastMoveVector);
+                CharacterController.Move(5f * Time.deltaTime * LastMoveVector );
 
                 yield return null;
             } 
