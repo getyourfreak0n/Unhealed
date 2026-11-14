@@ -135,11 +135,11 @@ namespace _Project.Code.Enemy
         
         void RandomizeStats()
         {
-            _agent.speed = Random.Range(3.5f, 8f);
+            _agent.speed = Random.Range(3.5f, 5f);
             _agent.angularSpeed = Random.Range(150f, 300f);
-            _agent.stoppingDistance = Random.Range(5f,20f);
-            _agent.avoidancePriority = Random.Range(1, 50);
-            _agent.radius = Random.Range(0.6f, 10f);
+            _agent.stoppingDistance = Random.Range(3f,15f);
+            _agent.radius = Random.Range(0.6f, 3f);
+            _agent.avoidancePriority = Random.Range(0, 15);
         }
     }
 }

@@ -41,7 +41,6 @@ namespace _Project.Code.Gameplay.Combat.WeaponStates
             if (Physics.SphereCast(ray, _player.SpreadAmount, 
                     out RaycastHit hit, _player.FireDistance, _player.EnemyLayer))
             { 
-                Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.TryGetComponent<IEnemy>(out var enemy))
                 {
                     float damage = _player._weaponsSO[_player.CurrentWeapon].damage;
