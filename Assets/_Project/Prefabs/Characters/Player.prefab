@@ -228,7 +228,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 10
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0.001
@@ -250,11 +250,10 @@ MonoBehaviour:
   <deceleration>k__BackingField: 6
   <gravity>k__BackingField: -9.4
   dashTime: 0.3
-  dashSpeed: 3
   dashAudio: {fileID: 8300000, guid: 4ab18aaaf8731d7479df8102b3303576, type: 3}
   <mouseSensitivity>k__BackingField: 0.082
   <mouseRigidity>k__BackingField: 0.03
-  dashCooldown: 1.52
+  dashCooldown: 1.73
   tookDamage: {fileID: 8300000, guid: 1e29e68db735c0649b5d7d91e42707fd, type: 3}
 --- !u!114 &4666037685186702911
 MonoBehaviour:
@@ -268,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f7346de6c5e5b4a8f99208a0a48996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooter
-  <crosshair>k__BackingField: {fileID: 1979755309246056677}
+  <crosshair>k__BackingField: {fileID: 8658603829638838592}
   <_weaponsSO>k__BackingField:
   - {fileID: 11400000, guid: db91f196a70edcf4485af42ef2de1021, type: 2}
   - {fileID: 11400000, guid: 3255f130c6ad53447991216689b88a01, type: 2}

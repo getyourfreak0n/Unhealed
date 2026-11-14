@@ -1386,7 +1386,7 @@ Transform:
   m_GameObject: {fileID: 614050924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 85.6, y: 0, z: 138.6}
+  m_LocalPosition: {x: 85.6, y: 3.1, z: 137.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1405,15 +1405,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
   m_SerializedVersion: 0
-  m_Size: {x: 79.1, y: 3, z: 61.6}
+  m_Size: {x: 79.1, y: 10.7, z: 61.6}
   m_Center: {x: -6.10474, y: 1, z: -1.2844086}
   m_Area: 3
   m_AffectedAgents: ffffffff
---- !u!4 &623745385 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8658603829638838592, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-  m_PrefabInstance: {fileID: 7505674839042051934}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &632206553
 Mesh:
   m_ObjectHideFlags: 0
@@ -1793,6 +1788,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 614050925}
+  - {fileID: 1112559508}
   - {fileID: 1316474807}
   - {fileID: 290459699}
   - {fileID: 2081110822}
@@ -1800,7 +1796,6 @@ Transform:
   - {fileID: 104625986}
   - {fileID: 1010559204}
   - {fileID: 2045827089}
-  - {fileID: 1112559508}
   m_Father: {fileID: 157944325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &894010074 stripped
@@ -3668,7 +3663,7 @@ Transform:
   m_GameObject: {fileID: 2081110821}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.19589677, z: -0, w: 0.98062456}
-  m_LocalPosition: {x: 125, y: 5.8, z: 175.5}
+  m_LocalPosition: {x: 124.6, y: 5.8, z: 178.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3873,30 +3868,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1086105931}
     m_Modifications:
-    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-      propertyPath: dashTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-      propertyPath: dashSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2247754838564374182, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-      propertyPath: dashCooldown
-      value: 1.73
-      objectReference: {fileID: 0}
     - target: {fileID: 2832026267871936892, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4666037685186702911, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-      propertyPath: layersToHit.m_Bits
-      value: 72
-      objectReference: {fileID: 0}
-    - target: {fileID: 4666037685186702911, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
-      propertyPath: <crosshair>k__BackingField
-      value: 
-      objectReference: {fileID: 623745385}
     - target: {fileID: 8035355333228439819, guid: d58c69b5b34812844bec1b90b4e126bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 137

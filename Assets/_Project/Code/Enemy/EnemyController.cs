@@ -22,6 +22,7 @@ namespace _Project.Code.Enemy
         Coroutine _flickerCoroutine;
         Coroutine _shootCoroutine;
         float _health = 100f;
+        bool isSeen;
 
         void Awake()
         {
@@ -39,15 +40,28 @@ namespace _Project.Code.Enemy
         void Update()
         {
             if (player == null) return;
-            
-            ChasePlayer();
-            EnemyRotator();
-            ShootAtPlayer();
+
+            if (!isSeen)
+            {
+                NavMesh.SamplePosition(player.transform.position, out NavMeshHit hit,1f, NavMesh.AllAreas);
+                if ((hit.mask & _agent.areaMask) != 0)
+                {
+                    isSeen = true;
+                    _agent.areaMask = -1;
+                }
+            }
+
+            if (isSeen)
+            {
+                ChasePlayer();
+                EnemyRotator();
+                ShootAtPlayer();
+            }
         }
 
         void ChasePlayer()
         {
-            _agent.SetDestination(player.transform.position);
+                _agent.SetDestination(player.transform.position);  
         }
 
         public void TakeDamage(float damage)
