@@ -30,7 +30,12 @@ namespace _Project.Code.Enemy
             _impulse = GetComponent<CinemachineImpulseSource>();
             _agent.updateRotation = false;
         }
-        
+
+        void Start()
+        {
+            RandomizeStats();
+        }
+
         void Update()
         {
             if (player == null) return;
@@ -128,5 +133,13 @@ namespace _Project.Code.Enemy
             transform.rotation = Quaternion.LookRotation(direction);    
         }
         
+        void RandomizeStats()
+        {
+            _agent.speed = Random.Range(3.5f, 8f);
+            _agent.angularSpeed = Random.Range(150f, 300f);
+            _agent.stoppingDistance = Random.Range(5f,20f);
+            _agent.avoidancePriority = Random.Range(1, 50);
+            _agent.radius = Random.Range(0.6f, 10f);
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace _Project.Input
             _actions.Disable();
         }
 
-        void OnShootPerformed(InputAction.CallbackContext obj)
+        void OnShootPerformed(InputAction.CallbackContext ctx)
         {
             _playerShooter.Shoot();
         }
