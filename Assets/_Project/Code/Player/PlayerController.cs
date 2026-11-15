@@ -125,15 +125,5 @@ namespace _Project.Code.Player
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
-
-        /*public void OnJump(bool isJumping)
-        {
-            if (isJumping && CharacterController.isGrounded)
-            {
-                _lastJumpTime = Time.time;
-                IsJumping = isJumping;
-                StateMachine.ChangeState(JumpState);
-            }
-        }*/ 
     }
 }

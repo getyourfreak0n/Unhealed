@@ -75,7 +75,6 @@ namespace _Project.Code.Enemy
             {
                 Destroy(gameObject);
             }
-            
         }
 
         public void CameraImpulse()

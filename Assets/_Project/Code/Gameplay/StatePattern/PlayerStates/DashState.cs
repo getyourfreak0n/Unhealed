@@ -17,7 +17,8 @@ namespace _Project.Code.Gameplay.StatePattern.PlayerStates
         {
             _player.StartTime = Time.time;
             _player.CharacterController.detectCollisions = false;
-            _player.CharacterController.excludeLayers = LayerMask.GetMask("EnemyProjectile");
+            _player.CharacterController.excludeLayers 
+                = LayerMask.GetMask("EnemyProjectile");
             _player.StartCoroutine(_player.Dash());
         }
 
