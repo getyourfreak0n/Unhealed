@@ -5,7 +5,6 @@ using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.ScriptableObjects;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace _Project.Code.Gameplay.Combat
 {
@@ -57,21 +56,7 @@ namespace _Project.Code.Gameplay.Combat
 
         void Update()
         {
-            WeaponSwitcher();
             _stateMachine._currentState.FrameUpdate();
-        }
-
-        void WeaponSwitcher()
-        {
-            if (Keyboard.current.digit1Key.wasPressedThisFrame)
-            {
-                _stateMachine.ChangeState(_pistolState);
-            }
-
-            if (Keyboard.current.digit2Key.wasPressedThisFrame)
-            {
-                _stateMachine.ChangeState(_shotgunState);
-            }
         }
         
         public void Shoot()

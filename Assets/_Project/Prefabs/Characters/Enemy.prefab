@@ -35,8 +35,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7469190157429500343}
   - {fileID: 7886468203795016162}
+  - {fileID: 7469190157429500343}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9222484107931301812
@@ -142,7 +142,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: 0, z: -0.2}
+  DefaultVelocity: {x: 0, y: 0, z: 0.2}
 --- !u!114 &1467119934745156380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +251,6 @@ GameObject:
   - component: {fileID: 7886468203795016162}
   - component: {fileID: 4853997918865526677}
   - component: {fileID: 4725049421616647363}
-  - component: {fileID: 338467412510754549}
   m_Layer: 6
   m_Name: Googles
   m_TagString: Untagged
@@ -331,24 +330,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &338467412510754549
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3670236670754718865}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

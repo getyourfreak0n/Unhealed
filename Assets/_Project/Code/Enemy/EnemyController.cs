@@ -129,7 +129,7 @@ namespace _Project.Code.Enemy
 
         IEnumerator Shoot()
         {
-            WaitForSeconds wait = new WaitForSeconds(Random.Range(1f, 3f));
+            WaitForSeconds wait = new WaitForSeconds(Random.Range(2.5f, 4f));
             
             Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-1f, 1f), 0f, 0f);
             Instantiate(bulletPrefab, firePoint.position, spawnRotation);
@@ -148,11 +148,11 @@ namespace _Project.Code.Enemy
         
         void RandomizeStats()
         {
-            _agent.speed = Random.Range(3.5f, 5f);
-            _agent.angularSpeed = Random.Range(150f, 300f);
+            _agent.speed = Random.Range(4f, 7f);
+            _agent.angularSpeed = Random.Range(200f, 350f);
             _agent.stoppingDistance = Random.Range(3f,15f);
-            _agent.radius = Random.Range(0.6f, 3f);
-            _agent.avoidancePriority = Random.Range(0, 15);
+            _agent.radius = Random.Range(0.6f, 3.5f);
+            _agent.avoidancePriority = Random.Range(0, 20);
         }
     }
 }

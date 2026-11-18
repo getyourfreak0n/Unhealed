@@ -42,6 +42,7 @@ namespace _Project.Code.Player
         public Vector3 MoveVector {get; set;}
         public float VerticalVelocity {get; set;}
         public Vector3 LastMoveVector {get; set;}
+        public bool DashUnlocked { get; set;}
 
         //Look
         public float LookInputX {get; private set;}
@@ -105,13 +106,16 @@ namespace _Project.Code.Player
 
         public void OnDash(bool isDashing)
         {
-            if (isDashing)
+            if (DashUnlocked)
             {
-                if (Time.time > LastDashTime + dashCooldown)
+                if (isDashing)
                 {
-                    LastDashTime = Time.time;
-                    StateMachine.ChangeState(DashState);
-                } 
+                    if (Time.time > LastDashTime + dashCooldown)
+                    {
+                        LastDashTime = Time.time;
+                        StateMachine.ChangeState(DashState);
+                    } 
+                }    
             }
         }
 
@@ -124,6 +128,6 @@ namespace _Project.Code.Player
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-        }
+        } 
     }
 }
