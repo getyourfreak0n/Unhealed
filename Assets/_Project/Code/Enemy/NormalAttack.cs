@@ -22,7 +22,7 @@ namespace _Project.Code.Enemy
             Initializer();
             Destroy(gameObject, 5f);
             
-            _rb.AddForce(transform.forward * Random.Range(1f,2.5f), ForceMode.Impulse);
+            _rb.AddForce(transform.forward * Random.Range(2f,3.5f), ForceMode.Impulse);
         }
 
         void OnCollisionEnter(Collision other)

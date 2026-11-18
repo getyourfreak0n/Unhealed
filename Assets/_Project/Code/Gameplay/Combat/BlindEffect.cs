@@ -10,6 +10,8 @@ namespace _Project.Code.Gameplay.Combat
         [SerializeField] float sphereRadius = 1;
         [SerializeField] float blindDuration = 5f;
 
+        private float _shotTime;
+
         Coroutine _blinded;
 
         void OnEnable()
@@ -25,16 +27,15 @@ namespace _Project.Code.Gameplay.Combat
 
         void OnBlinded()
         {
+            _shotTime = Time.time;
             _blinded ??= StartCoroutine(BubbleSpawner());
         }
         
         IEnumerator BubbleSpawner() 
         {
                 WaitForSeconds wait = new WaitForSeconds(0.45f);
-
-                float shotTime = Time.time;
                 
-                while (shotTime <= Time.time + blindDuration)
+                while (Time.time < _shotTime + blindDuration)
                 {
                     Vector3 spawnPos = Random.insideUnitSphere * sphereRadius + spawnPoint.position;
                     spawnPos.z = spawnPoint.position.z + Random.Range(0.5f, 0.8f);

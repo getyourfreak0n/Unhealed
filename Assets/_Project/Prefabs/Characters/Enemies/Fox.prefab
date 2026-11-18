@@ -1142,9 +1142,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.Enemy.EnemyController
   enemySo: {fileID: 11400000, guid: 21115b632ed28bc4cabb58915bb92155, type: 2}
   vfxPrefab: {fileID: 7551903720376777594, guid: 831e528eeefddb245be20632157c61d3, type: 3}
-  bulletPrefab: {fileID: 182407955651135739, guid: 3948e8993c64b884e8f5ea7a74f1bb2c, type: 3}
+  normalPrefab: {fileID: 182407955651135739, guid: 3948e8993c64b884e8f5ea7a74f1bb2c, type: 3}
+  blindingPrefab: {fileID: 0}
   firePoint: {fileID: 4283680846806567806}
   player: {fileID: 0}
+  FirePoints: []
 --- !u!1 &5235313094618489835
 GameObject:
   m_ObjectHideFlags: 0

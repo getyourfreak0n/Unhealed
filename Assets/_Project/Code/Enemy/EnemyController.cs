@@ -32,13 +32,16 @@ namespace _Project.Code.Enemy
         float _health;
         float _moveSpeed;
         bool _hasEffect;
+        BoxCollider _collider;
         RuntimeAnimatorController _controller;
         public float Damage { get; set; }
         
         bool _isSeen;
+        bool _isDead;
 
         void Awake()
         {
+            _collider = GetComponent<BoxCollider>();
             _renderer = GetComponent<SkinnedMeshRenderer>();
             _agent = GetComponent<NavMeshAgent>();
             _impulse = GetComponent<CinemachineImpulseSource>();
@@ -67,7 +70,7 @@ namespace _Project.Code.Enemy
                 }
             }
 
-            if (_isSeen)
+            if (_isSeen && !_isDead)
             {
                 ChasePlayer();
                 EnemyRotator();
@@ -98,8 +101,20 @@ namespace _Project.Code.Enemy
 
             if (_health <= 0f)
             {
-                Destroy(gameObject);
+                _isDead = true;
+                StartCoroutine(OnDeath());
             }
+        }
+
+        IEnumerator OnDeath()
+        {
+            StopCoroutine(Flicker());
+            _animator.SetTrigger("onDeath");
+            _collider.enabled = false;
+
+            yield return null;
+            
+            Destroy(gameObject,3f);
         }
 
         public void CameraImpulse()
@@ -141,7 +156,7 @@ namespace _Project.Code.Enemy
         {
             if (_renderer == null) yield break;
             
-            WaitForSeconds wait = new WaitForSeconds(0.2f);
+            WaitForSeconds wait = new WaitForSeconds(0.15f);
 
             _renderer.enabled = false;
             yield return wait;
@@ -157,9 +172,9 @@ namespace _Project.Code.Enemy
 
         IEnumerator NormalAttack()
         {
-            WaitForSeconds wait = new WaitForSeconds(Random.Range(2.5f, 4f));
+            WaitForSeconds wait = new WaitForSeconds(Random.Range(2f, 3.5f));
             
-            Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-1f, 1f), 0f, 0f);
+            Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-0.85f, 0.85f), 0f, 0f);
             Instantiate(normalPrefab, firePoint.position, spawnRotation);
             _animator.SetTrigger("isAttacking");
             

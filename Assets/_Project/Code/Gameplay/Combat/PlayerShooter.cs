@@ -50,6 +50,16 @@ namespace _Project.Code.Gameplay.Combat
             _tiltAxis = GetComponentInChildren<CinemachinePanTilt>();
         }
 
+        void OnEnable()
+        {
+            EventManager.Instance.LevelTwo += OnLevelTwo;
+        }
+
+        void OnDisable()
+        {
+            EventManager.Instance.LevelTwo -= OnLevelTwo;
+        }
+
         void Start()
         {
             _stateMachine.InitializeState(_defaultState);
@@ -58,6 +68,11 @@ namespace _Project.Code.Gameplay.Combat
         void Update()
         {
             _stateMachine._currentState.FrameUpdate();
+        }
+
+        void OnLevelTwo()
+        {
+            _stateMachine.ChangeState(_shotgunState);
         }
         
         public void Shoot()

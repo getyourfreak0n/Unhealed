@@ -1,5 +1,6 @@
 using System.Collections;
 using _Project.Code.Audio;
+using _Project.Code.Gameplay;
 using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.Gameplay.StatePattern.PlayerStates;
 using UnityEngine;
@@ -79,7 +80,22 @@ namespace _Project.Code.Player
         { 
             StateMachine._currentState?.FrameUpdate();
         }
-        
+
+        void OnEnable()
+        {
+            EventManager.Instance.LevelThree += OnLevelThree;
+        }
+
+        void OnDisable()
+        {
+            EventManager.Instance.LevelThree -= OnLevelThree;
+        }
+
+        void OnLevelThree()
+        {
+            DashUnlocked = true;
+        }
+
         public void GetMoveInput(Vector2 moveInput)
         {
             MoveInput = Vector3.ClampMagnitude(new Vector3(moveInput.x, 0, moveInput.y), 1f);

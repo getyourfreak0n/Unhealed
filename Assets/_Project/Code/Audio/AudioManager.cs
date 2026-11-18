@@ -5,19 +5,19 @@ namespace _Project.Code.Audio
 {
    public class AudioManager : SingletonBase<AudioManager>
    {
-      private AudioSource _audioSource;
+      public AudioSource AudioSource { get; private set; }
 
       protected override void Awake()
       {
          base.Awake();
-         _audioSource = GetComponent<AudioSource>();
+         AudioSource = GetComponent<AudioSource>();
       }
 
       public void PlaySound(AudioClip clip,  float volume, float lowPitch, float highPitch)
       {
-         _audioSource.clip = clip;
-         _audioSource.pitch = Random.Range(lowPitch, highPitch);
-         _audioSource.PlayOneShot(_audioSource.clip, volume);
+         AudioSource.clip = clip;
+         AudioSource.pitch = Random.Range(lowPitch, highPitch);
+         AudioSource.PlayOneShot(AudioSource.clip, volume);
       }
    }
 }
