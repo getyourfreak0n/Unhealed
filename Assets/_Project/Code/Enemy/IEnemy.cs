@@ -1,6 +1,3 @@
-using Unity.Cinemachine;
-using UnityEngine;
-
 namespace _Project.Code.Enemy
 {
     public interface IEnemy

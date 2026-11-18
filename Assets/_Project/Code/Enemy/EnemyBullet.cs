@@ -1,11 +1,16 @@
 using _Project.Code.Player;
+using _Project.Code.ScriptableObjects.EnemySO.Attacks;
 using UnityEngine;
 
 namespace _Project.Code.Enemy
 {
     public class EnemyBullet : MonoBehaviour
     {
+        [SerializeField] EnemyAttackSO so;
+        
         Rigidbody _rb;
+        int _damage;
+        bool _hasEffect;
 
         void Awake()
         {
@@ -23,10 +28,16 @@ namespace _Project.Code.Enemy
         {
             if (other.gameObject.TryGetComponent(out PlayerController player))
             {
-                player.TakeDamage(1);
+                player.TakeDamage(_damage);
             }
 
             Destroy(gameObject);
+        }
+
+        void Initializer()
+        {
+            _hasEffect = so.hasEffect;
+            _damage = so.Damage;
         }
     }
 }

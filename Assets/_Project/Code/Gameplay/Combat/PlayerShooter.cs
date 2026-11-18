@@ -3,6 +3,7 @@ using _Project.Code.Audio;
 using _Project.Code.Gameplay.Combat.WeaponStates;
 using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.ScriptableObjects;
+using _Project.Code.ScriptableObjects.WeaponsSO;
 using Unity.Cinemachine;
 using UnityEngine;
 

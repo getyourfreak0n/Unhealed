@@ -2,6 +2,7 @@
 using System.Collections;
 using _Project.Code.Audio;
 using _Project.Code.Gameplay.Combat;
+using _Project.Code.ScriptableObjects.EnemySO.Stats;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,23 +11,29 @@ namespace _Project.Code.Enemy
 {
     public class EnemyController : MonoBehaviour, IEnemy, IDamageable
     {
+        [SerializeField] private EnemySO enemySo;
         [SerializeField] private GameObject vfxPrefab;
-        [SerializeField] private AudioClip damageClip;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private Transform firePoint;
         [SerializeField] GameObject player;
 
         NavMeshAgent _agent;
         CinemachineImpulseSource _impulse;
-        MeshRenderer _renderer;
+        SkinnedMeshRenderer _renderer;
         Coroutine _flickerCoroutine;
         Coroutine _shootCoroutine;
-        float _health = 100f;
-        bool isSeen;
+        
+        AudioClip _damageClip;
+        float _health;
+        float _moveSpeed;
+        bool _hasEffect;
+        public float Damage { get; set; }
+        
+        bool _isSeen;
 
         void Awake()
         {
-            _renderer = GetComponent<MeshRenderer>();
+            _renderer = GetComponent<SkinnedMeshRenderer>();
             _agent = GetComponent<NavMeshAgent>();
             _impulse = GetComponent<CinemachineImpulseSource>();
             _agent.updateRotation = false;
@@ -34,6 +41,7 @@ namespace _Project.Code.Enemy
 
         void Start()
         {
+            StatsInitializer();
             RandomizeStats();
         }
 
@@ -41,17 +49,17 @@ namespace _Project.Code.Enemy
         {
             if (player == null) return;
 
-            if (!isSeen)
+            if (!_isSeen)
             {
                 NavMesh.SamplePosition(player.transform.position, out NavMeshHit hit,1f, NavMesh.AllAreas);
                 if ((hit.mask & _agent.areaMask) != 0)
                 {
-                    isSeen = true;
+                    _isSeen = true;
                     _agent.areaMask = -1;
                 }
             }
 
-            if (isSeen)
+            if (_isSeen)
             {
                 ChasePlayer();
                 EnemyRotator();
@@ -92,7 +100,7 @@ namespace _Project.Code.Enemy
 
         public void DamageSFX()
         {
-            AudioManager.Instance.PlaySound(damageClip, 0.5f, 0.3f, 0.5f);
+            AudioManager.Instance.PlaySound(_damageClip, 0.5f, 0.3f, 0.5f);
         }
 
         public void HitVFX(Vector3 hitPoint, Vector3 hitDirection)
@@ -114,16 +122,16 @@ namespace _Project.Code.Enemy
             if (_renderer == null) yield break;
             
             WaitForSeconds wait = new WaitForSeconds(0.2f);
-            
-            _renderer.material.color = Color.white;
+
+            _renderer.enabled = false;
             yield return wait;
-            _renderer.material.color = Color.red;
+            _renderer.enabled = true;
             yield return wait;
-            _renderer.material.color = Color.white;
+            _renderer.enabled = false;
             yield return wait;
-            _renderer.material.color = Color.red;
+            _renderer.enabled = true;
             yield return wait;
-            
+
             _flickerCoroutine = null;
         }
 
@@ -148,11 +156,19 @@ namespace _Project.Code.Enemy
         
         void RandomizeStats()
         {
-            _agent.speed = Random.Range(4f, 7f);
             _agent.angularSpeed = Random.Range(200f, 350f);
             _agent.stoppingDistance = Random.Range(3f,15f);
             _agent.radius = Random.Range(0.6f, 3.5f);
             _agent.avoidancePriority = Random.Range(0, 20);
+        }
+
+        void StatsInitializer()
+        {
+            _health = enemySo.Health;
+            _moveSpeed = enemySo.MoveSpeed;
+            _damageClip = enemySo.DamageClip;
+            
+            _agent.speed = _moveSpeed;
         }
     }
 }
