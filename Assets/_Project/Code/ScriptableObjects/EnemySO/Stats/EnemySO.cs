@@ -6,9 +6,10 @@ namespace _Project.Code.ScriptableObjects.EnemySO.Stats
     public class EnemySO : ScriptableObject
     {
         public EnemyType EnemyType;
+        public AudioClip DamageClip;
+        public RuntimeAnimatorController Controller;
         public int Health;
         public int MoveSpeed;
-        public AudioClip DamageClip;
     }
     
     public enum EnemyType

@@ -13,20 +13,26 @@ namespace _Project.Code.Enemy
     {
         [SerializeField] private EnemySO enemySo;
         [SerializeField] private GameObject vfxPrefab;
-        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject normalPrefab;
+        [SerializeField] private GameObject blindingPrefab;
         [SerializeField] private Transform firePoint;
-        [SerializeField] GameObject player;
+        [SerializeField] private GameObject player;
+        [SerializeField] private Transform[] FirePoints;
 
         NavMeshAgent _agent;
         CinemachineImpulseSource _impulse;
         SkinnedMeshRenderer _renderer;
+        Animator _animator;
         Coroutine _flickerCoroutine;
-        Coroutine _shootCoroutine;
+        Coroutine _normalAttack;
+        Coroutine _blindingAttack;
         
         AudioClip _damageClip;
+        EnemyType _type;
         float _health;
         float _moveSpeed;
         bool _hasEffect;
+        RuntimeAnimatorController _controller;
         public float Damage { get; set; }
         
         bool _isSeen;
@@ -36,6 +42,8 @@ namespace _Project.Code.Enemy
             _renderer = GetComponent<SkinnedMeshRenderer>();
             _agent = GetComponent<NavMeshAgent>();
             _impulse = GetComponent<CinemachineImpulseSource>();
+            _animator = GetComponent<Animator>();
+            
             _agent.updateRotation = false;
         }
 
@@ -63,13 +71,22 @@ namespace _Project.Code.Enemy
             {
                 ChasePlayer();
                 EnemyRotator();
-                ShootAtPlayer();
+                AttackThePlayer();
             }
         }
 
         void ChasePlayer()
         {
-                _agent.SetDestination(player.transform.position);  
+            if (_agent.remainingDistance <= _agent.stoppingDistance)
+            { 
+                _animator.SetBool("isRunning", false);
+            }
+            else
+            {
+                _animator.SetBool("isRunning", true);
+            }
+            
+            _agent.SetDestination(player.transform.position);  
         }
 
         public void TakeDamage(float damage)
@@ -92,10 +109,7 @@ namespace _Project.Code.Enemy
 
         public void FlickerEffect()
         {
-            if (_flickerCoroutine == null)
-            {
-                _flickerCoroutine = StartCoroutine(Flicker());
-            }
+            _flickerCoroutine ??= StartCoroutine(Flicker());
         }
 
         public void DamageSFX()
@@ -105,16 +119,22 @@ namespace _Project.Code.Enemy
 
         public void HitVFX(Vector3 hitPoint, Vector3 hitDirection)
         {
-            GameObject instantiate =Instantiate(vfxPrefab, hitPoint, Quaternion.LookRotation(hitDirection));
+            GameObject instantiate = Instantiate(vfxPrefab, hitPoint, Quaternion.LookRotation(hitDirection));
             Destroy(instantiate, 1.5f);
         }
 
-        void ShootAtPlayer()
+        void AttackThePlayer()
         {
-            if (_shootCoroutine == null)
+            switch (_type)
             {
-                _shootCoroutine = StartCoroutine(Shoot());
+                case EnemyType.Type1:
+                    _normalAttack ??= StartCoroutine(NormalAttack());
+                    break;
+                case EnemyType.Type2:
+                    _blindingAttack ??= StartCoroutine(BlindingAttack());
+                    break;
             }
+            
         }
 
         IEnumerator Flicker()
@@ -135,16 +155,17 @@ namespace _Project.Code.Enemy
             _flickerCoroutine = null;
         }
 
-        IEnumerator Shoot()
+        IEnumerator NormalAttack()
         {
             WaitForSeconds wait = new WaitForSeconds(Random.Range(2.5f, 4f));
             
             Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-1f, 1f), 0f, 0f);
-            Instantiate(bulletPrefab, firePoint.position, spawnRotation);
+            Instantiate(normalPrefab, firePoint.position, spawnRotation);
+            _animator.SetTrigger("isAttacking");
             
             yield return wait;
             
-            _shootCoroutine  = null;
+            _normalAttack  = null;
         }
 
         void EnemyRotator()
@@ -153,12 +174,33 @@ namespace _Project.Code.Enemy
             direction.y = 0;
             transform.rotation = Quaternion.LookRotation(direction);    
         }
-        
+
+        IEnumerator BlindingAttack()
+        {
+            WaitForSeconds wait = new WaitForSeconds(5f);
+
+            int randomIndex = Random.Range(0, FirePoints.Length);
+            Transform selectedFirePoint = FirePoints[randomIndex];
+
+            selectedFirePoint.LookAt(player.transform);
+            
+            //Quaternion randomOffset = Quaternion.Euler(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
+            Quaternion finalSpawnRotation = selectedFirePoint.rotation;
+
+            Instantiate(blindingPrefab, selectedFirePoint.position, finalSpawnRotation);
+
+            _animator.SetTrigger("isAttacking");
+            
+            yield return wait;
+            
+            _blindingAttack = null;
+        }
+
         void RandomizeStats()
         {
             _agent.angularSpeed = Random.Range(200f, 350f);
             _agent.stoppingDistance = Random.Range(3f,15f);
-            _agent.radius = Random.Range(0.6f, 3.5f);
+            _agent.radius = Random.Range(1f, 4f);
             _agent.avoidancePriority = Random.Range(0, 20);
         }
 
@@ -167,8 +209,11 @@ namespace _Project.Code.Enemy
             _health = enemySo.Health;
             _moveSpeed = enemySo.MoveSpeed;
             _damageClip = enemySo.DamageClip;
+            _type = enemySo.EnemyType;
+            _controller = enemySo.Controller;
             
             _agent.speed = _moveSpeed;
+            _animator.runtimeAnimatorController = _controller;
         }
     }
 }

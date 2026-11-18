@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: EnemyType1
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.ScriptableObjects.WeaponsSO.EnemySO
   EnemyType: 0
-  Health: 50
-  Damage: 1
-  MoveSpeed: 5
-  hasEffect: 0
   DamageClip: {fileID: 8300000, guid: 57cfe9e837d07164b910ef21453759ec, type: 3}
+  Controller: {fileID: 9100000, guid: b646d4bb6454d734087e43b57ca9b9eb, type: 2}
+  Health: 50
+  MoveSpeed: 7

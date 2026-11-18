@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Project.Code.Enemy
 {
-    public class EnemyBullet : MonoBehaviour
+    public class NormalAttack : MonoBehaviour
     {
         [SerializeField] EnemyAttackSO so;
         
@@ -19,6 +19,7 @@ namespace _Project.Code.Enemy
 
         void Start()
         {
+            Initializer();
             Destroy(gameObject, 5f);
             
             _rb.AddForce(transform.forward * Random.Range(1f,2.5f), ForceMode.Impulse);
