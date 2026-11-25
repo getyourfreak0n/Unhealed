@@ -13,8 +13,8 @@ namespace _Project.Code.Gameplay
         public event Action LevelThree;
         public event Action Blinded;
         
-        private bool levelTwoTriggered = false;
-        private bool levelThreeTriggered = false;
+        private bool levelTwoTriggered;
+        private bool levelThreeTriggered;
 
         void Update()
         {
@@ -46,6 +46,7 @@ namespace _Project.Code.Gameplay
             {
                 if (enemy != null)
                 {
+                    // This will print the name of the exact enemy blocking the level transition
                     return false;
                 }
             }

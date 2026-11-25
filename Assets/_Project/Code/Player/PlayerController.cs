@@ -4,6 +4,7 @@ using _Project.Code.Gameplay;
 using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.Gameplay.StatePattern.PlayerStates;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 namespace _Project.Code.Player
@@ -55,7 +56,7 @@ namespace _Project.Code.Player
         
         #endregion
 
-        int _health = 5;
+        int _health = 8;
 
         void Awake()
         {
@@ -79,6 +80,12 @@ namespace _Project.Code.Player
         void Update()
         { 
             StateMachine._currentState?.FrameUpdate();
+
+            int highGroundMask = 1 << NavMesh.GetAreaFromName("HighGround");
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2f,  highGroundMask ))
+            {
+                Debug.Log("You are on high ground!");
+            }
         }
 
         void OnEnable()

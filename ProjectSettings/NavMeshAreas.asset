@@ -15,8 +15,8 @@ NavMeshProjectSettings:
     cost: 1
   - name: Area3
     cost: 1
-  - name: 
-    cost: 1
+  - name: HighGround
+    cost: 2
   - name: 
     cost: 1
   - name: 

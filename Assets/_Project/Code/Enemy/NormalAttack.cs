@@ -20,9 +20,9 @@ namespace _Project.Code.Enemy
         void Start()
         {
             Initializer();
-            Destroy(gameObject, 5f);
+            Destroy(gameObject, 4f);
             
-            _rb.AddForce(transform.forward * Random.Range(2f,3.5f), ForceMode.Impulse);
+            _rb.AddForce(transform.forward * Random.Range(1.8f,3.2f), ForceMode.Impulse);
         }
 
         void OnCollisionEnter(Collision other)

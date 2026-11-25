@@ -114,6 +114,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2758806733151869595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6435123849006458745}
+  m_Layer: 8
+  m_Name: BubblePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6435123849006458745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2758806733151869595}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8658603829638838592}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2832026267871936892
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,6 +497,7 @@ GameObject:
   - component: {fileID: 6099734513093322385}
   - component: {fileID: 2040876067277514794}
   - component: {fileID: 7445565423158513827}
+  - component: {fileID: 4620572844872675642}
   m_Layer: 8
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -488,6 +520,7 @@ Transform:
   m_Children:
   - {fileID: 5657366095343001028}
   - {fileID: 7438264828498247637}
+  - {fileID: 6435123849006458745}
   m_Father: {fileID: 8035355333228439819}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3533581516949746092
@@ -649,3 +682,19 @@ MonoBehaviour:
     FrequencyGain: 1
     Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &4620572844872675642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8386032394551818471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d2f25e6b0e1f384a9b8c4ad246da619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Code.Gameplay.Combat.BlindEffect
+  prefab: {fileID: 5933823550575845276, guid: 028f51e060f6e9b488b229a848ff51a7, type: 3}
+  spawnPoint: {fileID: 6435123849006458745}
+  sphereRadius: 1
+  blindDuration: 5

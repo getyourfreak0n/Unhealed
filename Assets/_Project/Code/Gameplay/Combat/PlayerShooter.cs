@@ -2,7 +2,6 @@ using System.Collections;
 using _Project.Code.Audio;
 using _Project.Code.Gameplay.Combat.WeaponStates;
 using _Project.Code.Gameplay.StatePattern;
-using _Project.Code.ScriptableObjects;
 using _Project.Code.ScriptableObjects.WeaponsSO;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -49,20 +48,16 @@ namespace _Project.Code.Gameplay.Combat
             Animator = GetComponentInChildren<Animator>();
             _tiltAxis = GetComponentInChildren<CinemachinePanTilt>();
         }
-
-        void OnEnable()
-        {
-            EventManager.Instance.LevelTwo += OnLevelTwo;
-        }
-
-        void OnDisable()
-        {
-            EventManager.Instance.LevelTwo -= OnLevelTwo;
-        }
+        
 
         void Start()
         {
             _stateMachine.InitializeState(_defaultState);
+            EventManager.Instance.LevelTwo += OnLevelTwo;
+        }
+        void OnDisable()
+        {
+            EventManager.Instance.LevelTwo -= OnLevelTwo;
         }
 
         void Update()
@@ -72,6 +67,7 @@ namespace _Project.Code.Gameplay.Combat
 
         void OnLevelTwo()
         {
+            CurrentWeapon = 1;
             _stateMachine.ChangeState(_shotgunState);
         }
         

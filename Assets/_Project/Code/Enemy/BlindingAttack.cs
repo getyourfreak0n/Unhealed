@@ -54,7 +54,7 @@ namespace _Project.Code.Enemy
 
             yield return wait;
             
-            _rb.AddForce(transform.forward * 7f, ForceMode.Impulse);
+            _rb.AddForce(transform.forward * 7.5f, ForceMode.Impulse);
         }
         
     }
