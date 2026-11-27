@@ -1,6 +1,5 @@
 using System.Collections;
 using _Project.Code.Audio;
-using _Project.Code.Gameplay;
 using _Project.Code.Gameplay.StatePattern;
 using _Project.Code.Gameplay.StatePattern.PlayerStates;
 using UnityEngine;
@@ -44,7 +43,6 @@ namespace _Project.Code.Player
         public Vector3 MoveVector {get; set;}
         public float VerticalVelocity {get; set;}
         public Vector3 LastMoveVector {get; set;}
-        public bool DashUnlocked { get; set;}
 
         //Look
         public float LookInputX {get; private set;}
@@ -80,28 +78,8 @@ namespace _Project.Code.Player
         void Update()
         { 
             StateMachine._currentState?.FrameUpdate();
-
-            int highGroundMask = 1 << NavMesh.GetAreaFromName("HighGround");
-            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2f,  highGroundMask ))
-            {
-                Debug.Log("You are on high ground!");
-            }
         }
-
-        void OnEnable()
-        {
-            EventManager.Instance.LevelThree += OnLevelThree;
-        }
-
-        void OnDisable()
-        {
-            EventManager.Instance.LevelThree -= OnLevelThree;
-        }
-
-        void OnLevelThree()
-        {
-            DashUnlocked = true;
-        }
+        
 
         public void GetMoveInput(Vector2 moveInput)
         {
@@ -129,17 +107,14 @@ namespace _Project.Code.Player
 
         public void OnDash(bool isDashing)
         {
-            if (DashUnlocked)
-            {
-                if (isDashing)
+            if (isDashing)
+            { 
+                if (Time.time > LastDashTime + dashCooldown) 
                 {
-                    if (Time.time > LastDashTime + dashCooldown)
-                    {
                         LastDashTime = Time.time;
                         StateMachine.ChangeState(DashState);
-                    } 
-                }    
-            }
+                } 
+            }    
         }
 
         public void TakeDamage(int damage)

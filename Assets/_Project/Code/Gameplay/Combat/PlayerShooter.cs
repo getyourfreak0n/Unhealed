@@ -53,23 +53,13 @@ namespace _Project.Code.Gameplay.Combat
         void Start()
         {
             _stateMachine.InitializeState(_defaultState);
-            EventManager.Instance.LevelTwo += OnLevelTwo;
-        }
-        void OnDisable()
-        {
-            EventManager.Instance.LevelTwo -= OnLevelTwo;
         }
 
         void Update()
         {
             _stateMachine._currentState.FrameUpdate();
         }
-
-        void OnLevelTwo()
-        {
-            CurrentWeapon = 1;
-            _stateMachine.ChangeState(_shotgunState);
-        }
+        
         
         public void Shoot()
         {

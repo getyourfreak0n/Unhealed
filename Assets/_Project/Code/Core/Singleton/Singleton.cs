@@ -47,7 +47,7 @@ namespace _Project.Code.Core.Singleton
             if (_instance == null)
             {
                 _instance = this as T;
-                if (PersistBetweenScenes) DontDestroyOnLoad(gameObject);
+                if (PersistBetweenScenes) DontDestroyOnLoad(transform.root.gameObject);
             }
             else if (_instance != this)
             {

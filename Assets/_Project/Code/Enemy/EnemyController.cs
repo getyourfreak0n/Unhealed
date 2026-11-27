@@ -11,6 +11,10 @@ namespace _Project.Code.Enemy
 {
     public class EnemyController : MonoBehaviour, IEnemy, IDamageable
     {
+        static readonly int IsRunning = Animator.StringToHash("isRunning");
+        static readonly int Death = Animator.StringToHash("onDeath");
+        static readonly int IsAttacking = Animator.StringToHash("isAttacking");
+        
         [SerializeField] private EnemySO enemySo;
         [SerializeField] private GameObject vfxPrefab;
         [SerializeField] private GameObject normalPrefab;
@@ -54,42 +58,55 @@ namespace _Project.Code.Enemy
         {
             StatsInitializer();
             RandomizeStats();
+            StartCoroutine(EnemyPathCheck());
+            StartCoroutine(EnemyShotCheck());
         }
-
-        void Update()
+        IEnumerator EnemyShotCheck()
         {
-            if (player == null) return;
-
-            if (!_isSeen)
+            WaitForSeconds shotCheckTime = new WaitForSeconds(0.1f);
+            
+            while (!_isDead)
             {
-                NavMesh.SamplePosition(player.transform.position, out NavMeshHit hit,1f, NavMesh.AllAreas);
-                if ((hit.mask & _agent.areaMask) != 0)
+                if(_isSeen)
+                    AttackThePlayer();
+                
+                yield return shotCheckTime;
+            }
+        }
+        IEnumerator EnemyPathCheck()
+        {
+            WaitForSeconds frameCheckTime = new WaitForSeconds(0.5f);
+
+            while (!_isDead)
+            {
+                if (player == null) yield return frameCheckTime;
+
+                if (!_isSeen)
                 {
-                    _isSeen = true;
-                    _agent.areaMask = -1;
+                    NavMesh.SamplePosition(player.transform.position, out NavMeshHit hit,1f, NavMesh.AllAreas);
+                    if ((hit.mask & _agent.areaMask) != 0)
+                    {
+                        _isSeen = true;
+                        _agent.areaMask = -1;
+                    }
                 }
+
+                if (_isSeen && !_isDead)
+                {
+                    ChasePlayer();
+                    EnemyRotator();
+                    
+                }
+                yield return frameCheckTime;
             }
 
-            if (_isSeen && !_isDead)
-            {
-                ChasePlayer();
-                EnemyRotator();
-                AttackThePlayer();
-            }
         }
 
         void ChasePlayer()
         {
-            if (_agent.remainingDistance <= _agent.stoppingDistance)
-            { 
-                _animator.SetBool("isRunning", false);
-            }
-            else
-            {
-                _animator.SetBool("isRunning", true);
-            }
-            
-            _agent.SetDestination(player.transform.position);  
+            _animator.SetBool(IsRunning, !(_agent.remainingDistance <= _agent.stoppingDistance));
+
+            _agent.SetDestination(player.transform.position);
         }
 
         public void TakeDamage(float damage)
@@ -109,7 +126,7 @@ namespace _Project.Code.Enemy
         IEnumerator OnDeath()
         {
             StopCoroutine(Flicker());
-            _animator.SetTrigger("onDeath");
+            _animator.SetTrigger(Death);
             _collider.enabled = false;
 
             yield return null;
@@ -176,7 +193,7 @@ namespace _Project.Code.Enemy
             
             Quaternion spawnRotation = transform.localRotation * Quaternion.Euler(Random.Range(-0.85f, 0.85f), 0f, 0f);
             Instantiate(normalPrefab, firePoint.position, spawnRotation);
-            _animator.SetTrigger("isAttacking");
+            _animator.SetTrigger(IsAttacking);
             
             yield return wait;
             
@@ -204,7 +221,7 @@ namespace _Project.Code.Enemy
 
             Instantiate(blindingPrefab, selectedFirePoint.position, finalSpawnRotation);
 
-            _animator.SetTrigger("isAttacking");
+            _animator.SetTrigger(IsAttacking);
             
             yield return wait;
             
